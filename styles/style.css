@@ -4,6 +4,31 @@
     box-sizing: border-box;
 }
 
+body {
+    font-family: "Raleway", sans-serif;
+}
+
+h1,
+h2,
+h3 {
+    font-family: "Raleway", sans-serif;
+    font-weight: 700;
+    font-size: 1.75rem;
+}
+
+.cabecalho {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+
+.icone__barbearia {
+    width: 50px;
+    height: 50px;
+}
+
 .conteudo__pagina__texto {
     min-height: 100vh;
     width: 100%;
@@ -17,8 +42,8 @@
 }
 
 .textos {
-    color: red;
-    -webkit-text-stroke: 1px white;
+    color: white;
+    -webkit-text-stroke: 0.1rem black;
 }
 
 .login {
@@ -29,6 +54,7 @@
     flex-direction: column;
     gap: 0.5rem;
     align-items: center;
+    width: 23%;
 }
 
 .input {
@@ -42,6 +68,14 @@
     padding: 0.5rem 1rem;
     background-color: white;
     border-radius: 0.5rem;
+    border: solid 1px rgb(128, 128, 128);
+    color: black;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.btn__entrar:hover {
+    background-color: rgb(171, 171, 171);
     color: black;
 }
 
@@ -51,5 +85,6 @@
 }
 
 .link:hover {
-    text-decoration: underline;
+    text-decoration: none;
+    color: grey;
 }
