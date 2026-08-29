@@ -1,37 +1,46 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bar Bearia</title>
+    <title>BarberFlow</title>
     <link rel="stylesheet" href="styles/style.css">
     <link rel="icon" type="image/png" href="assets/icone_barbearia.jpg">
 </head>
 
 <body>
-    <section class="conteudo__pagina__texto">
-        <div class="textos">
-            <div class="cabecalho">
-                <img src="assets/icone_barbearia.jpg" alt="Icone da Barbearia" class="icone__barbearia">
-                <h2 style="padding-bottom: 5%;">Bar Bearia</h2>
+    <main class="conteudo__pagina__texto">
+        <section class="textos">
+            <div class="cabecalho"> <img src="assets/icone_barbearia.jpg" alt="Ícone da Barbearia"
+                    class="icone__barbearia">
+                <h1>BarberFlow</h1>
             </div>
-            <h1>Você faz tudo pelo <br>seu negócio. <br>O Mostralo também!</h1>
-            <h3 style="padding-top: 10%;">Faz tudo para o seu negócio crescer</h3>
-        </div>
-
-        <div class="login">
+            <div class="msg">
+                <h2>Cuide do seu negócio. A gente simplifica a gestão.</h2>
+                <p> Organize sua agenda, clientes e serviços em um só lugar. </p>
+            </div>
+        </section>
+        <form class="login">
             <h1>Portal de Acesso</h1>
-            <label style="align-self: flex-start;">E-mail</label>
-            <input class="input" type="text" placeholder="seu@email.com">
-            <label style="align-self: flex-start;">Senha</label>
-            <input class="input" type="password" placeholder="Sua senha">
-            <a class="link" href="#" style="padding-top: 0.7rem; padding-bottom: 0.7rem;">Esqueci minha senha</a>
-            <button class="btn__entrar" href="#">Entrar</button>
-            <a class="link" href="#" style="padding-top: 0.7rem;">Não tem uma conta? Crie aqui!</a>
-        </div>
-    </section>
+            <p>Gerencie sua barbearia de forma fácil e rápida.</p>
+            <label for="email">E-mail</label>
+            <input class="input" id="email" name="email" type="email" placeholder="seu@email.com" autocomplete="email"
+                required>
+            <label for="senha">Senha</label> <input class="input" id="senha" name="senha" type="password"
+                placeholder="Sua senha" autocomplete="current-password" required>
+            <div class="lembrar-me"> <input type="checkbox" id="lembrar" name="lembrar">
+                <label for="lembrar">
+                    Lembrar-me neste dispositivo </label>
+            </div>
+            <a class="link link__esqueci" href="#"> Esqueci minha
+                senha </a>
+            <button class="btn__entrar" type="submit"> Entrar </button>
+            <a class="link link__criar" href="#"> Não tem
+                uma conta? Crie aqui!
+            </a>
+        </form>
+    </main>
 </body>
 
 </html>

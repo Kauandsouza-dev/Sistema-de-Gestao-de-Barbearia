@@ -10,29 +10,15 @@ body {
 
 h1,
 h2,
-h3 {
-    font-family: "Raleway", sans-serif;
-    font-weight: 700;
-    font-size: 1.75rem;
+p {
+    margin: 0;
 }
 
-.cabecalho {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
-}
-
-
-.icone__barbearia {
-    width: 50px;
-    height: 50px;
-}
-
+/* ============================== ÁREA PRINCIPAL ============================== */
 .conteudo__pagina__texto {
     min-height: 100vh;
     width: 100%;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("/assets/barbearia.jpg");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("../assets/barbearia.jpg");
     background-size: cover;
     background-position: center;
     display: flex;
@@ -41,50 +27,161 @@ h3 {
     padding: 0 10%;
 }
 
+/* ============================== APRESENTAÇÃO ============================== */
 .textos {
     color: white;
-    -webkit-text-stroke: 0.1rem black;
+    max-width: 550px;
 }
 
+.cabecalho {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.icone__barbearia {
+    width: 50px;
+    height: 50px;
+}
+
+.cabecalho h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+.msg h2 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.msg p {
+    font-size: 1.2rem;
+}
+
+/* ============================== LOGIN ============================== */
 .login {
-    background-color: #ffffff;
+    background-color: whitesmoke;
+    width: min(100%, 400px);
     padding: 1.5rem;
     border-radius: 0.5rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
     align-items: center;
-    width: 23%;
+    gap: 0.5rem;
 }
 
+.login h1 {
+    font-size: 2rem;
+    font-weight: bolder;
+    margin-bottom: 0.25rem;
+}
+
+.login p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 1.2rem;
+}
+
+.login > label {
+    align-self: flex-start;
+    font-size: 1rem;
+    font-weight: bolder;
+    color: #333;
+}
+
+/* ============================== INPUTS ============================== */
 .input {
-    padding: 0.5rem 1rem;
-    border: 1px solid rgb(128, 128, 128);
-    border-radius: 0.5rem;
     width: 100%;
+    min-height: 44px;
+    padding: 0.7rem 1rem;
+    background-color: #fff;
+    border: 1px solid #d0d0d0; 
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    transition: 0.2s ease;
 }
 
+.input:focus {
+    outline: none;
+    border-color: black;
+}
+
+/* ============================== LEMBRAR-ME ============================== */
+.lembrar-me {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lembrar-me label {
+    font-size: 0.9rem;
+    color: #555;
+    cursor: pointer;
+}
+
+/* ============================== BOTÃO ============================== */
 .btn__entrar {
-    padding: 0.5rem 1rem;
-    background-color: white;
+    width: 100%;
+    min-height: 44px;
+    margin-top: 0.5rem;
+    padding: 0.7rem 1rem;
+    background-color: #1f1f1f;
+    color: white;
     border-radius: 0.5rem;
-    border: solid 1px rgb(128, 128, 128);
-    color: black;
+    font-size: 0.95rem;
+    font-weight:bolder;
     cursor: pointer;
     transition: 0.2s ease;
 }
 
 .btn__entrar:hover {
-    background-color: rgb(171, 171, 171);
-    color: black;
+    background-color: #302e2e;
 }
 
+
+/* ============================== LINKS ============================== */
 .link {
     text-decoration: none;
     color: black;
 }
 
 .link:hover {
-    text-decoration: none;
     color: grey;
+}
+
+.link__esqueci {
+    align-self: flex-end;
+    font-size: 0.85rem;
+    color: #333;
+    padding: 0.4rem 0;
+    transition: 0.2s ease;
+}
+
+.link__esqueci:hover {
+    color: #000;
+
+}
+
+.link__criar {
+    padding-top: 0.7rem;
+}
+
+/* ============================== RESPONSIVIDADE ============================== */
+/*Deixar Responsividade Sempre na Ultima Linha*/
+@media (max-width: 768px) {
+    .textos {
+        display: none;
+    }
+
+    .conteudo__pagina__texto {
+        justify-content: center;
+        padding: 1.5rem;
+    }
+
+    .login {
+        width: min(100%, 400px);
+    }
 }
