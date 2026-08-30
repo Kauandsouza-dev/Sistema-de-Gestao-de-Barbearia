@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BarberFlow</title>
+    <link rel="stylesheet" href="../styles/cadastro.css">
+    <link rel="icon" type="image/png" href="../assets/icone_barbearia.jpg">
+</head>
+
+<body>
+    <main class="conteudo__pagina__texto">
+        </section>
+        <form class="login">
+            <img src="../assets/icone_barbearia.jpg" alt="Ícone da Barbearia" class="icone__barbearia">
+            <h1>BarberFlow</h1>
+            <label for="senha">Senha</label>
+            <input class="input" id="senha" name="senha" type="password" placeholder="Digite sua senha"
+                autocomplete="current-password" required>
+            <label for="confirmacao_senha">Confirmação da Senha</label>
+            <input class="input" id="confirmacao_senha" name="confirmacao_senha" type="password"
+                placeholder="Repita sua senha" autocomplete="current-password" required>
+            <button class="btn__entrar" type="button" onclick="verificarSenhas()"> Finalizar Cadastro </button>
+        </form>
+    </main>
+</body>
+
+<script>
+    function verificarSenhas() {
+        // pega o conteúdo do campo senha
+        var senha = document.getElementById("senha").value;
+        // pega o conteúdo do campo confirmacao_senha
+        var confirmacao = document.getElementById("confirmacao_senha").value;
+        // verifica se a senha é igual a confirmação
+        if (senha !== confirmacao) {
+            alert("As senhas não coincidem! Tente novamente.");
+            return;
+        }
+        if (senha.length < 6) {
+            alert("A senha deve ter pelo menos 6 caracteres.");
+            return;
+        }
+        // envia para a página seguinte (substitui a tag âncora href)
+        window.location.href = "cadastro_senha_sucesso.html";
+    }
+</script>
+
+</html>
