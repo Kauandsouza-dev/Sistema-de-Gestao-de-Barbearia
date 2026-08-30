@@ -35,7 +35,7 @@ p {
     background-size: cover;
     background-position: center;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 0 10%;
 }
@@ -96,10 +96,10 @@ p {
     font-size: 1rem;
     color: #666;
     margin-bottom: 1.2rem;
+    margin-top: 0.5rem;
 }
 
 .login>label {
-    align-self: flex-start;
     font-size: 1rem;
     font-weight: bolder;
     color: #333;
@@ -149,6 +149,8 @@ p {
     font-weight: bolder;
     cursor: pointer;
     transition: 0.2s ease;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
 }
 
 .btn__entrar:hover {
