@@ -15,9 +15,7 @@
 ---
 #### ⚙️ ESTRUTURA DE DIRETÓRIOS
 * **Localização deste arquivo:** `docs/requisitos-semanais/SEMANA-01/RF-001-autenticacao-cadastro.md`
-* **Localização do Protótipo HTML+CSS:** `src/prototipos/SEMANA-01/RF-001-autenticacao-cadastro/index.html`
-
-
+* **Localização do Protótipo HTML+CSS:** `src/prototipos/SEMANA-01/RF-001-autenticacao-cadastro/index.html`g
 ---
 
 
