@@ -11,11 +11,43 @@
 * Gabriel Lima (gabriel61889806@edu.df.senac.br)
 * Kauan Souza (kauan61701296@edu.df.senac.br)
 * Pedro Quartieri (pedro54660396@edu.df.senac.br)
-
 ---
+
+
 #### ⚙️ ESTRUTURA DE DIRETÓRIOS
+
+
+```
+barberflow/
+├── docs/
+│   ├── requisitos-semanais/
+│   │   ├── SEMANA-01/
+│   │   │   ├── RF-001-autenticacao-cadastro.md (ESTE ARQUIVO - ENTREGAR)
+│   │   └── ... (SEMANA-XX)
+│
+├── src/
+│   ├── prototipos/
+│   │   ├── SEMANA-01/
+│   │   │   ├── RF-001-autenticacao-cadastro/
+│   │   │   │   ├── index.html (tela de Login)
+│   │   │   │   ├── pages
+│   │   │   │       ├── cadastro.html (tela de cadastro)
+│   │   │   │       ├── cadastro_senha.html (tela de inserção de senha do cadastro)
+│   │   │   │       └── cadastro_senha_sucesso.html (tela de confirmação de cadastro)
+│   │   │   │   ├── styles
+│   │   │   │   	   │── style.css (CSS compartilhado entre as telas)
+│   │   │   │       └── cadastro.css (tela de inserção de senha do cadastro)
+│   │   │   │   ├── assets
+│   │   │   │   	   │── barbearia.jpg
+│   │   │   │       └── icone_barbearia.jpg
+│   │   └── ... (SEMANA-XX)
+```
+
+
 * **Localização deste arquivo:** `docs/requisitos-semanais/SEMANA-01/RF-001-autenticacao-cadastro.md`
-* **Localização do Protótipo HTML+CSS:** `src/prototipos/SEMANA-01/RF-001-autenticacao-cadastro/index.html`g
+* **Localização do Protótipo HTML+CSS:** `src/prototipos/SEMANA-01/RF-001-autenticacao-cadastro/index.html` ⚠️ **OBRIGATÓRIO**
+
+
 ---
 
 
