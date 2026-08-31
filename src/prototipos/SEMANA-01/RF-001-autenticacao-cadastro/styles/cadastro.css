@@ -18,7 +18,7 @@ p {
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(1.2rem);
     }
 
     to {
@@ -27,7 +27,6 @@ p {
     }
 }
 
-/* ============================== ÁREA PRINCIPAL ============================== */
 .conteudo__pagina__texto {
     min-height: 100vh;
     width: 100%;
@@ -35,46 +34,17 @@ p {
     background-size: cover;
     background-position: center;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 0 10%;
 }
 
-/* ============================== APRESENTAÇÃO ============================== */
-.textos {
-    color: white;
-    max-width: 550px;
-}
-
-.cabecalho {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 2rem;
-}
-
 .icone__barbearia {
-    width: 50px;
-    height: 50px;
+    width: 100px;
+    height: 100px;
     border-radius: 20%;
 }
 
-.cabecalho h1 {
-    font-size: 1.75rem;
-    font-weight: 700;
-}
-
-.msg h2 {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-}
-
-.msg p {
-    font-size: 1.2rem;
-}
-
-/* ============================== LOGIN ============================== */
 .login {
     background-color: whitesmoke;
     width: min(100%, 400px);
@@ -96,16 +66,15 @@ p {
     font-size: 1rem;
     color: #666;
     margin-bottom: 1.2rem;
+    margin-top: 0.5rem;
 }
 
 .login>label {
-    align-self: flex-start;
     font-size: 1rem;
     font-weight: bolder;
     color: #333;
 }
 
-/* ============================== INPUTS ============================== */
 .input {
     width: 100%;
     min-height: 44px;
@@ -122,22 +91,7 @@ p {
     border-color: black;
 }
 
-/* ============================== LEMBRAR-ME ============================== */
-.lembrar-me {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.lembrar-me label {
-    font-size: 0.9rem;
-    color: #555;
-    cursor: pointer;
-}
-
-/* ============================== BOTÃO ============================== */
-.btn__entrar {
+.btn__avancar {
     width: 100%;
     min-height: 44px;
     margin-top: 0.5rem;
@@ -149,47 +103,15 @@ p {
     font-weight: bolder;
     cursor: pointer;
     transition: 0.2s ease;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
 }
 
-.btn__entrar:hover {
+.btn__avancar:hover {
     background-color: #302e2e;
 }
 
-
-/* ============================== LINKS ============================== */
-.link {
-    text-decoration: none;
-    color: black;
-}
-
-.link:hover {
-    color: grey;
-}
-
-.link__esqueci {
-    align-self: flex-end;
-    font-size: 0.85rem;
-    color: #333;
-    padding: 0.4rem 0;
-    transition: 0.2s ease;
-}
-
-.link__esqueci:hover {
-    color: #000;
-
-}
-
-.link__criar {
-    padding-top: 0.7rem;
-}
-
-/* ============================== RESPONSIVIDADE ============================== */
-/*Deixar Responsividade Sempre na Ultima Linha*/
 @media (max-width: 768px) {
-    .textos {
-        display: none;
-    }
-
     .conteudo__pagina__texto {
         justify-content: center;
         padding: 1.5rem;

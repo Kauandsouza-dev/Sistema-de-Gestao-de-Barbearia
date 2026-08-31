@@ -21,18 +21,15 @@
             <label for="confirmacao_senha">Confirmação da Senha</label>
             <input class="input" id="confirmacao_senha" name="confirmacao_senha" type="password"
                 placeholder="Repita sua senha" autocomplete="current-password" required>
-            <button class="btn__entrar" type="button" onclick="verificarSenhas()"> Finalizar Cadastro </button>
+            <button class="btn__avancar" type="button" onclick="verificarSenhas()"> Finalizar Cadastro </button>
         </form>
     </main>
 </body>
 
 <script>
     function verificarSenhas() {
-        // pega o conteúdo do campo senha
         var senha = document.getElementById("senha").value;
-        // pega o conteúdo do campo confirmacao_senha
         var confirmacao = document.getElementById("confirmacao_senha").value;
-        // verifica se a senha é igual a confirmação
         if (senha !== confirmacao) {
             alert("As senhas não coincidem! Tente novamente.");
             return;
@@ -41,7 +38,6 @@
             alert("A senha deve ter pelo menos 6 caracteres.");
             return;
         }
-        // envia para a página seguinte (substitui a tag âncora href)
         window.location.href = "cadastro_senha_sucesso.html";
     }
 </script>

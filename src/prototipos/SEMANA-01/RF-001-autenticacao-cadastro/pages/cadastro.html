@@ -19,8 +19,7 @@
             <label for="email">E-mail</label>
             <input class="input" id="email" name="email" type="email" placeholder="seu@email.com" autocomplete="email"
                 required>
-            <button class="btn__entrar" type="button" onclick="validarEmail()"> Avançar </button>
-
+            <button class="btn__avancar" type="button" onclick="validarEmail()"> Avançar </button>
         </form>
     </main>
 </body>
@@ -28,17 +27,14 @@
     function validarEmail() {
         var email = document.getElementById("email").value;
         var formatoValido = email.includes("@") && email.includes(".");
-        // verifica se o campo de e-mail tá vazio
         if (email === "") {
             alert("Por favor, preencha o e-mail.");
             return;
         }
-        // verifica se tem o formato válido de e-mail
         if (!formatoValido) {
             alert("Por favor, insira um e-mail válido.");
             return;
         }
-        // envia para a página seguinte (substitui a tag âncora href)
         window.location.href = "cadastro_senha.html";
     }
 </script>
