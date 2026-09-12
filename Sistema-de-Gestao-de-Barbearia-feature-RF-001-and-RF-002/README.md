@@ -1,1 +1,0 @@
-# Sistema-de-Gestao-de-Barbearia
