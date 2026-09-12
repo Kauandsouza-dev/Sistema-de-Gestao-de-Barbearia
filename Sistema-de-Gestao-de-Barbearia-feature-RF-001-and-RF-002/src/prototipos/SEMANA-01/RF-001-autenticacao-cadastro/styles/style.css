@@ -27,7 +27,8 @@ p {
     }
 }
 
-.conteudo_pagina {
+
+.conteudo__pagina__texto {
     min-height: 100vh;
     width: 100%;
     background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("../assets/barbearia.jpg");
@@ -39,54 +40,6 @@ p {
     padding: 0 10%;
 }
 
-/* transições e modo cadastro */
-
-.textos,
-.form_login,
-.form_cadastro {
-    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
-    /* aq eu defini a animação q roda nos formulários */
-}
-
-/* Quando o javascript troca pro modo de cadastro: */
-/* 1. o texto e o login somem */
-.conteudo_pagina.modo_cadastro .textos,
-.conteudo_pagina.modo_cadastro .form_login {
-    opacity: 0;
-    pointer-events: none;
-}
-
-/* 2. o cadastro aparece na meiuca da tela */
-.conteudo_pagina.modo_cadastro .form_cadastro {
-    opacity: 1;
-    pointer-events: all;
-    transform: translate(-50%, -50%) scale(1);
-    transition-delay: 0.3s;
-}
-
-.etapa {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-
-    animation: fadeIn 0.4s ease forwards;
-}
-
-.etapa>label {
-    align-self: flex-start;
-    font-size: 1rem;
-    font-weight: bolder;
-    color: 333;
-}
-
-.etapa_2,
-.etapa_3 {
-    display: none;
-}
-
-/* textos paralelos ao login */
 
 .textos {
     color: white;
@@ -100,7 +53,7 @@ p {
     margin-bottom: 2rem;
 }
 
-.icone_barbearia {
+.icone__barbearia {
     width: 50px;
     height: 50px;
     border-radius: 20%;
@@ -121,15 +74,8 @@ p {
     font-size: 1.2rem;
 }
 
-/* cards de formulário (login e cadastro */
 
-.container_forms {
-    position: relative;
-    width: min(100%, 400px);
-}
-
-.form_login,
-.form_cadastro {
+.login {
     background-color: whitesmoke;
     width: min(100%, 400px);
     padding: 1.5rem;
@@ -140,39 +86,25 @@ p {
     gap: 0.5rem;
 }
 
-.form_login h1,
-.form_cadastro h1 {
+.login h1 {
     font-size: 2rem;
     font-weight: bolder;
     margin-bottom: 0.25rem;
 }
 
-.form_login p,
-.form_cadastro p {
+.login p {
     font-size: 1rem;
     color: #666;
     margin-bottom: 1.2rem;
 }
 
-.form_login>label,
-.form_cadastro>label {
+.login>label {
     align-self: flex-start;
     font-size: 1rem;
     font-weight: bolder;
     color: #333;
 }
 
-.form_cadastro {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.95);
-    opacity: 0;
-    pointer-events: none;
-    z-index: 10;
-}
-
-/* inputs e botões */
 
 .input {
     width: 100%;
@@ -190,23 +122,25 @@ p {
     border-color: black;
 }
 
-.lembrar_me {
+
+.lembrar-me {
     width: 100%;
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-.lembrar_me label {
+.lembrar-me label {
     font-size: 0.9rem;
     color: #555;
     cursor: pointer;
 }
 
-.btn_entrar,
-.btn_avancar {
+
+.btn__entrar {
     width: 100%;
     min-height: 44px;
+    margin-top: 0.5rem;
     padding: 0.7rem 1rem;
     background-color: #1f1f1f;
     color: white;
@@ -215,22 +149,13 @@ p {
     font-weight: bolder;
     cursor: pointer;
     transition: 0.2s ease;
-    border: none;
 }
 
-.btn_entrar {
-    margin-top: 0.5rem;
-}
-
-.btn_avancar {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-}
-
-.btn_entrar:hover,
-.btn_avancar:hover {
+.btn__entrar:hover {
     background-color: #302e2e;
 }
+
+
 
 .link {
     text-decoration: none;
@@ -241,7 +166,7 @@ p {
     color: grey;
 }
 
-.link_esqueci {
+.link__esqueci {
     align-self: flex-end;
     font-size: 0.85rem;
     color: #333;
@@ -249,28 +174,26 @@ p {
     transition: 0.2s ease;
 }
 
-.link_esqueci:hover {
+.link__esqueci:hover {
     color: #000;
+
 }
 
-.link_criar {
+.link__criar {
     padding-top: 0.7rem;
 }
-
-/* responsividade */
 
 @media (max-width: 768px) {
     .textos {
         display: none;
     }
 
-    .conteudo_pagina {
+    .conteudo__pagina__texto {
         justify-content: center;
         padding: 1.5rem;
     }
 
-    .form_login,
-    .form_cadastro {
+    .login {
         width: min(100%, 400px);
     }
 }

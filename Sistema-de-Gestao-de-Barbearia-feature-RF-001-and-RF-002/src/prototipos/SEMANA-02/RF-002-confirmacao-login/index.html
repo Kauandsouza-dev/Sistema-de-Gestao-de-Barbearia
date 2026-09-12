@@ -22,6 +22,7 @@
             </div>
         </section>
         <div class="container_forms">
+
             <form class="form_card form_login">
                 <h1>Portal de Acesso</h1>
                 <p>Gerencie sua barbearia de forma fácil e rápida.</p>
@@ -36,20 +37,19 @@
                 </div>
                 <a class="link link_esqueci" href="#"> Esqueci minha
                     senha </a>
-                <button class="btn_entrar" type="submit"> Entrar </button>
-                <a class="link link_criar" href="pages/cadastro.html"> Não tem
-                    uma conta? Crie aqui!
-                </a>
+                <button class="btn_entrar" onclick="fazerLogin()" type="button"> Entrar </button>
+                <a class="link link_criar" href="#"> Não tem uma conta? Crie aqui!</a>
             </form>
+
             <form class="form_card form_cadastro">
-                <img src="../assets/icone_barbearia.jpg" alt="Ícone da Barbearia" class="icone_barbearia">
+                <img src="assets/icone_barbearia.jpg" alt="Ícone da Barbearia" class="icone_barbearia">
                 <h1>BarberFlow</h1>
                 <div class="etapa etapa_1">
                     <p>Crie sua Conta</p>
                     <label for="email">E-mail</label>
                     <input class="input" id="email_cadastro" name="email" type="email" placeholder="seu@email.com"
                         autocomplete="email" required>
-                    <button class="btn_avancar" type="button" onclick="validarEmail()"> Avançar </button>
+                    <button class="btn_avancar" type="button" onclick="validarEmailCadastro()"> Avançar </button>
                 </div>
                 <div class="etapa etapa_2" style="display: none;">
                     <label for="senha_cadastro">Senha</label>
@@ -67,6 +67,7 @@
                     </button>
                 </div>
             </form>
+
         </div>
     </main>
 </body>

@@ -1,0 +1,123 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Raleway", sans-serif;
+    animation: fadeIn 0.4s ease;
+}
+
+h1,
+h2,
+p {
+    margin: 0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(1.2rem);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.conteudo__pagina__texto {
+    min-height: 100vh;
+    width: 100%;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("../assets/barbearia.jpg");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10%;
+}
+
+.icone__barbearia {
+    width: 100px;
+    height: 100px;
+    border-radius: 20%;
+}
+
+.login {
+    background-color: whitesmoke;
+    width: min(100%, 400px);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.login h1 {
+    font-size: 2rem;
+    font-weight: bolder;
+    margin-bottom: 0.25rem;
+}
+
+.login p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 1.2rem;
+    margin-top: 0.5rem;
+}
+
+.login>label {
+    font-size: 1rem;
+    font-weight: bolder;
+    color: #333;
+}
+
+.input {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.7rem 1rem;
+    background-color: #fff;
+    border: 1px solid #d0d0d0;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    transition: 0.2s ease;
+}
+
+.input:focus {
+    outline: none;
+    border-color: black;
+}
+
+.btn__avancar {
+    width: 100%;
+    min-height: 44px;
+    margin-top: 0.5rem;
+    padding: 0.7rem 1rem;
+    background-color: #1f1f1f;
+    color: white;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: bolder;
+    cursor: pointer;
+    transition: 0.2s ease;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+.btn__avancar:hover {
+    background-color: #302e2e;
+}
+
+@media (max-width: 768px) {
+    .conteudo__pagina__texto {
+        justify-content: center;
+        padding: 1.5rem;
+    }
+
+    .login {
+        width: min(100%, 400px);
+    }
+}
