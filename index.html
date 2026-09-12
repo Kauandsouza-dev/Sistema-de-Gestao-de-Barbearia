@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BarberFlow</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="assets/icone_barbearia.jpg">
+</head>
+
+<body>
+    <main class="conteudo_pagina">
+        <section class="textos">
+            <div class="cabecalho"> <img src="assets/icone_barbearia.jpg" alt="Ícone da Barbearia"
+                    class="icone_barbearia">
+                <h1>BarberFlow</h1>
+            </div>
+            <div class="msg">
+                <h2>Cuide do seu negócio. A gente simplifica a gestão.</h2>
+                <p> Organize sua agenda, clientes e serviços em um só lugar. </p>
+            </div>
+        </section>
+        <div class="container_forms">
+            <form class="form_card form_login">
+                <h1>Portal de Acesso</h1>
+                <p>Gerencie sua barbearia de forma fácil e rápida.</p>
+                <label for="email">E-mail</label>
+                <input class="input" id="email_login" name="email" type="email" placeholder="seu@email.com"
+                    autocomplete="email" required>
+                <label for="senha">Senha</label> <input class="input" id="senha" name="senha" type="password"
+                    placeholder="sua senha" autocomplete="current-password" required>
+                <div class="lembrar_me"> <input type="checkbox" id="lembrar" name="lembrar">
+                    <label for="lembrar">
+                        Lembrar-me neste dispositivo </label>
+                </div>
+                <a class="link link_esqueci" href="#"> Esqueci minha
+                    senha </a>
+                <button class="btn_entrar" type="submit"> Entrar </button>
+                <a class="link link_criar" href="pages/cadastro.html"> Não tem
+                    uma conta? Crie aqui!
+                </a>
+            </form>
+            <form class="form_card form_cadastro">
+                <img src="../assets/icone_barbearia.jpg" alt="Ícone da Barbearia" class="icone_barbearia">
+                <h1>BarberFlow</h1>
+                <div class="etapa etapa_1">
+                    <p>Crie sua Conta</p>
+                    <label for="email">E-mail</label>
+                    <input class="input" id="email_cadastro" name="email" type="email" placeholder="seu@email.com"
+                        autocomplete="email" required>
+                    <button class="btn_avancar" type="button" onclick="validarEmail()"> Avançar </button>
+                </div>
+                <div class="etapa etapa_2" style="display: none;">
+                    <label for="senha_cadastro">Senha</label>
+                    <input class="input" id="senha_cadastro" type="password" placeholder="Digite sua senha" required>
+
+                    <label for="confirmacao_senha">Confirmação da Senha</label>
+                    <input class="input" id="confirmacao_senha" type="password" placeholder="Repita sua senha" required>
+
+                    <button class="btn_avancar" type="button" onclick="verificarSenhas()"> Finalizar Cadastro
+                    </button>
+                </div>
+                <div class="etapa etapa_3">
+                    <p>Conta criada com sucesso!<br><b>Verifique seu e-mail para ativar a conta.</b></p>
+                    <button class="btn_avancar" type="button" onclick="voltarAoLogin()"> Voltar à página de login
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+<script src="app.js"></script>
+
+</html>
