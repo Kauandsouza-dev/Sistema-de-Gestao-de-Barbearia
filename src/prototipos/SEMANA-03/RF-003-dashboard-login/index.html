@@ -12,13 +12,8 @@
 <body>
     <main class="conteudo_pagina">
         <section class="textos">
-<<<<<<< HEAD
-            <div class="cabecalho"> <img src="assets/icone_barbearia.jpg" alt="Ícone da Barbearia"
-                    class="icone_barbearia">
-=======
             <div class="cabecalho">
                 <img src="assets/icone_barbearia.jpg" alt="Ícone da Barbearia" class="icone_barbearia">
->>>>>>> 9b122e4 (feat(RF-002.1: lembrar-me, darkmode, esqueci a senha, WCAG2 (acessibilidade))
                 <h1>BarberFlow</h1>
             </div>
             <div class="msg">
@@ -28,22 +23,27 @@
         </section>
         <div class="container_forms">
 
+            <!--Campos de Login e Cadastro-->
             <form class="form_card form_login">
                 <h1>Portal de Acesso</h1>
                 <p>Gerencie sua barbearia de forma fácil e rápida.</p>
-                <label for="email">E-mail</label>
+                <button id="toggle_tema" class="btn_tema" type="button" aria-label="Alternar tema escuro/claro">
+                    🌙
+                </button>
+                <label for="email_login">E-mail</label>
                 <input class="input" id="email_login" name="email" type="email" placeholder="seu@email.com"
                     autocomplete="email" required>
-                <label for="senha">Senha</label> <input class="input" id="senha" name="senha" type="password"
-                    placeholder="sua senha" autocomplete="current-password" required>
-                <div class="lembrar_me"> <input type="checkbox" id="lembrar" name="lembrar">
-                    <label for="lembrar">
-                        Lembrar-me neste dispositivo </label>
+                <label for="senha">Senha</label>
+                <input class="input" id="senha" name="senha" type="password" placeholder="sua senha"
+                    autocomplete="current-password" required>
+                <div class="lembrar_me">
+                    <input type="checkbox" id="lembrar" name="lembrar">
+                    <label for="lembrar"> Lembrar-me neste dispositivo </label>
                 </div>
-                <a class="link link_esqueci" href="#"> Esqueci minha
+                <a class="link link_esqueci" href="#" role="button" tabindex="0"> Esqueci minha
                     senha </a>
                 <button class="btn_entrar" onclick="fazerLogin()" type="button"> Entrar </button>
-                <a class="link link_criar" href="#"> Não tem uma conta? Crie aqui!</a>
+                <a class="link link_criar" href="#" role="button" tabindex="0"> Não tem uma conta? Crie aqui!</a>
             </form>
 
             <form class="form_card form_cadastro">
@@ -51,7 +51,7 @@
                 <h1>BarberFlow</h1>
                 <div class="etapa etapa_1">
                     <p>Crie sua Conta</p>
-                    <label for="email">E-mail</label>
+                    <label for="email_cadastro">E-mail</label>
                     <input class="input" id="email_cadastro" name="email" type="email" placeholder="seu@email.com"
                         autocomplete="email" required>
                     <button class="btn_avancar" type="button" onclick="validarEmailCadastro()"> Avançar </button>
@@ -73,6 +73,24 @@
                 </div>
             </form>
 
+            <!--Campos de recuperação de senha-->
+            <form class="form_card form_recuperar">
+                <div class="etapa recuperar_1">
+                    <p>Digite seu e-mail cadastro para enviarmos as instruções de redefinição</p>
+                    <label for="email_recuperar">E-mail</label>
+                    <input class="input" id="email_recuperar" type="email" placeholder="seu@email.com">
+                    <button class="btn_avancar" type="button" onclick="enviarRecuperacao()"> Enviar Instruções
+                    </button>
+                    <a class="link" href="#" onclick="voltarAoLogin()" role="button" tabindex="0"> Voltar ao Login </a>
+                </div>
+
+                <div class="etapa recuperar_2">
+                    <p>Se o e-mail existir na nossa base, enviamos as instruções para você!<br><b>Verifique sua caixa de
+                            entrada e spam.</b></p>
+                    <button class="btn_avancar" type="button" onclick="voltarAoLogin()"> Voltar à tela de Login
+                    </button>
+                </div>
+            </form>
         </div>
     </main>
 </body>
