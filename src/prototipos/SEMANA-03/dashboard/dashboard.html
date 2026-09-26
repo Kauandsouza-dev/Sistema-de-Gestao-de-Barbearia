@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BarberFlow - Agendamentos</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+
+    <header class="topo">
+        <div class="cabecalho">
+            <img src="../assets/icone_barbearia.jpg" alt="Ícone da Barbearia" class="icone_barbearia">
+            <h1>BARBERFLOW</h1>
+        </div>
+        <button class="btn_sair" onclick="alert('Saindo...')">Sair</button>
+    </header>
+
+    <main class="conteudo">
+
+        <div class="linha_titulo">
+            <h2>Agendamentos</h2>
+            <button id="botaoNovo" class="btn_acao" onclick="abrirFormularioNovo()">+ Novo Agendamento</button>
+        </div>
+
+        <div class="cartao">
+
+            <input class="input campo_busca" type="text" id="busca" placeholder="Buscar por cliente"
+                onkeyup="mostrarAgendamentos()">
+
+            <table id="tabela">
+                <tr>
+                    <th>Cliente</th>
+                    <th>Serviço</th>
+                    <th>Barbeiro</th>
+                    <th>Data</th>
+                    <th>Hora</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </table>
+
+            <p id="mensagemVazia">Nenhum agendamento encontrado.</p>
+
+        </div>
+
+        <!-- formulário que aparece/some, sem ser um modal de verdade -->
+        <div id="caixaFormulario" class="cartao caixa_formulario" style="display: none;">
+
+            <h3 id="tituloFormulario">Novo Agendamento</h3>
+
+            <label>Cliente:</label>
+            <input class="input" type="text" id="campoCliente">
+
+            <label>Serviço:</label>
+            <select class="input" id="campoServico">
+                <option value="Corte Masculino">Corte Masculino</option>
+                <option value="Barba">Barba</option>
+                <option value="Corte + Barba">Corte + Barba</option>
+                <option value="Sobrancelha">Sobrancelha</option>
+            </select>
+
+            <label>Barbeiro:</label>
+            <input class="input" type="text" id="campoBarbeiro">
+
+            <label>Data:</label>
+            <input class="input" type="date" id="campoData">
+
+            <label>Hora:</label>
+            <input class="input" type="time" id="campoHora">
+
+            <label>Status:</label>
+            <select class="input" id="campoStatus">
+                <option value="Confirmado">Confirmado</option>
+                <option value="Pendente">Pendente</option>
+                <option value="Cancelado">Cancelado</option>
+            </select>
+
+            <div class="linha_botoes">
+                <button class="btn_acao" onclick="salvarAgendamento()">Salvar</button>
+                <button class="btn_cancelar" onclick="fecharFormulario()">Cancelar</button>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="dashboard.js"></script>
+</body>
+
+</html>
