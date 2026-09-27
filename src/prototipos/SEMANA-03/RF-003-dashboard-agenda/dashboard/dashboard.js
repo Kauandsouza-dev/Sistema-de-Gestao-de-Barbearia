@@ -226,3 +226,7 @@ function excluirAgendamento(id) {
 
 // chama a função de iniciar assim que o JS carrega
 iniciar();
+
+function sair() {
+    window.location.href = "../app/RF-03.html";
+}

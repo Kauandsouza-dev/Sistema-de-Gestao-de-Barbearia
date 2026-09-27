@@ -97,7 +97,7 @@ function fazerLogin() {
             localStorage.removeItem("emailLembrado");
         }
 
-        window.location.href = "pages/dashboard.html";
+        window.location.href = "../dashboard/dashboard.html";
     } else {
         alert("E-mail ou senha incorretos.")
     }
