@@ -1,0 +1,270 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Raleway", sans-serif;
+    background-color: #14161c;
+    color: #f2f2f2;
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* topo */
+
+.topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 2rem;
+    background-color: #1c1f26;
+    border-bottom: 1px solid #2c2f38;
+}
+
+.topo h1 {
+    font-size: 1.4rem;
+    letter-spacing: 0.03em;
+}
+
+.cabecalho {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.icone_barbearia {
+    width: 42px;
+    height: 42px;
+    border-radius: 20%;
+    object-fit: cover;
+}
+
+/* conteúdo */
+
+.conteudo {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+.linha_titulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.linha_titulo h2 {
+    font-size: 1.6rem;
+    font-weight: bolder;
+}
+
+/* cartão (mesma linguagem visual dos forms de login: fundo claro, cantos arredondados) */
+
+.cartao {
+    background-color: whitesmoke;
+    color: #1f1f1f;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.campo_busca {
+    max-width: 280px;
+    margin-bottom: 1rem;
+}
+
+/* tabela */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5rem;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 0.75rem 0.6rem;
+    border-bottom: 1px solid #d0d0d0;
+    font-size: 0.9rem;
+}
+
+th {
+    color: #666;
+    font-weight: bolder;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+tr:hover td {
+    background-color: #ececec;
+}
+
+#mensagemVazia {
+    display: none;
+    text-align: center;
+    color: #777;
+    padding: 1.5rem 0;
+}
+
+/* status na tabela */
+
+.status_confirmado {
+    color: #16a34a;
+    font-weight: bolder;
+}
+
+.status_pendente {
+    color: #ca8a04;
+    font-weight: bolder;
+}
+
+.status_cancelado {
+    color: #dc2626;
+    font-weight: bolder;
+}
+
+/* formulário de novo/editar agendamento */
+
+.caixa_formulario {
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    animation: fadeIn 0.3s ease;
+}
+
+.caixa_formulario h3 {
+    font-size: 1.3rem;
+    font-weight: bolder;
+    margin-bottom: 0.5rem;
+}
+
+.caixa_formulario label {
+    font-size: 0.9rem;
+    font-weight: bolder;
+    color: #333;
+    margin-top: 0.4rem;
+}
+
+.linha_botoes {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.2rem;
+}
+
+/* inputs, selects (mesmo padrão do .input usado no login) */
+
+.input {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.7rem 1rem;
+    background-color: #fff;
+    border: 1px solid #d0d0d0;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    color: #1f1f1f;
+    transition: 0.2s ease;
+}
+
+.input:focus {
+    outline: none;
+    border-color: black;
+}
+
+/* botões (mesmo padrão do .btn_entrar usado no login) */
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    border-radius: 0.5rem;
+    transition: 0.2s ease;
+}
+
+.btn_acao {
+    min-height: 44px;
+    padding: 0.7rem 1.2rem;
+    background-color: #1f1f1f;
+    color: white;
+    font-size: 0.95rem;
+    font-weight: bolder;
+}
+
+.btn_acao:hover {
+    background-color: #302e2e;
+}
+
+.btn_cancelar {
+    min-height: 44px;
+    padding: 0.7rem 1.2rem;
+    background-color: transparent;
+    color: #1f1f1f;
+    font-size: 0.95rem;
+    font-weight: bolder;
+    border: 1px solid #d0d0d0;
+}
+
+.btn_cancelar:hover {
+    background-color: #e5e5e5;
+}
+
+.btn_sair {
+    padding: 0.5rem 1rem;
+    background-color: #2c2f38;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.btn_sair:hover {
+    background-color: #3a3d47;
+}
+
+.btn_tabela {
+    padding: 0.4rem 0.7rem;
+    background-color: #e5e5e5;
+    color: #1f1f1f;
+    font-size: 0.8rem;
+    margin-right: 0.3rem;
+}
+
+.btn_tabela:hover {
+    background-color: #d4d4d4;
+}
+
+.btn_excluir:hover {
+    background-color: #f2b8b8;
+}
+
+/* responsividade */
+
+@media (max-width: 600px) {
+    .conteudo {
+        padding: 1.5rem 1rem;
+    }
+
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        font-size: 0.8rem;
+    }
+}
