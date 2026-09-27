@@ -228,5 +228,5 @@ function excluirAgendamento(id) {
 iniciar();
 
 function sair() {
-    window.location.href = "../app/RF-03.html";
+    window.location.href = "../app/index.html";
 }
