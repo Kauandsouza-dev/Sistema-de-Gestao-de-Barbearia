@@ -101,7 +101,7 @@ O módulo de Gestão de Agendamentos é o núcleo produtivo do BarberFlow e aten
 
 #### Atores do Sistema
 
-##### 1. BARBEIRO (Ator Principal)
+##### 1. BARBEIRO / COLABORADOR (Ator Principal)
 * **Papel:** Consultar sua grade de atendimentos do dia, filtrar os clientes marcados e atualizar o status ou horário de serviços.
 * **Responsabilidade:** Atualizar a situação real de cada atendimento (Pendente para Confirmado ou Cancelado) e registrar novos agendamentos de balcão.
 * **Permissões:**
@@ -120,7 +120,7 @@ O módulo de Gestão de Agendamentos é o núcleo produtivo do BarberFlow e aten
 * **Papel:** Titular do serviço agendado que possui seus dados e horário consultados na recepção.
 
 ##### 4. SISTEMA / MOTOR JAVASCRIPT (Ator Automático)
-* **Papel:** Processar os eventos do DOM, serializar e desserializar a lista de agendamentos no `localStorage`, injetar elementos dinâmicos na tabela e controlar a exibição dos formulários.
+* **Papel:** Processar os eventos do DOM, serializar e desserializar a lista de agendamentos no `localStorage` (`JSON.stringify` / `JSON.parse`), injetar elementos dinâmicos na tabela e controlar a exibição dos formulários.
 * **Responsabilidade:** Responder em tempo hábil (< 100ms) a todas as interações de digitação e clique, sem requisições síncronas bloqueantes.
 
 ---
