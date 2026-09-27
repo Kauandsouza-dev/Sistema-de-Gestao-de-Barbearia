@@ -121,11 +121,7 @@ p {
     font-size: 1.2rem;
 }
 
-<<<<<<< HEAD
 /* cards de formulário (login e cadastro */
-=======
-/* cards de formulário (login e cadastro) */
->>>>>>> 9b122e4 (feat(RF-002.1: lembrar-me, darkmode, esqueci a senha, WCAG2 (acessibilidade))
 
 .container_forms {
     position: relative;
