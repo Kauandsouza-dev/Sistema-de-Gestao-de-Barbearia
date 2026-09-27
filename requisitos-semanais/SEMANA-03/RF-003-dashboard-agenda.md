@@ -32,7 +32,7 @@ barberflow/
 │   │   └── semana-03/
 │   │       └── RF-003-dashboard-agenda/
 │   │           ├── app/
-│   │           │   ├── index.html (Portal de Acesso, Dark Mode e Recuperação)
+│   │           │   ├── RF-03.html (Portal de Acesso, Dark Mode e Recuperação)
 │   │           │   ├── style.css (Estilos globais, Dark Mode e Acessibilidade)
 │   │           │   └── app.js (Autenticação, Redirecionamento e LocalStorage)
 │   │           │
