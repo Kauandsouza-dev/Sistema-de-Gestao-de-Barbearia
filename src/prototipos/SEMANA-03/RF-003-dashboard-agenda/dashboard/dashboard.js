@@ -155,7 +155,7 @@ function salvarAgendamento() {
     var cliente = document.getElementById("campoCliente").value;
     var servico = document.getElementById("campoServico").value;
     var barbeiro = document.getElementById("campoBarbeiro").value;
-    var data = document.getElementById("campoData").value;
+    var data = document.getElementById("campoData").value;jk
     var hora = document.getElementById("campoHora").value;
     var status = document.getElementById("campoStatus").value;
 
