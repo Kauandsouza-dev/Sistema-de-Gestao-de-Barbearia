@@ -23,7 +23,7 @@ body {
     }
 }
 
-/* topo */
+/* header */
 
 .topo {
     display: flex;
@@ -52,7 +52,7 @@ body {
     object-fit: cover;
 }
 
-/* menu de navegação do topo */
+/* menu de navegação do header */
 
 .menu_centro {
     display: flex;
@@ -108,7 +108,7 @@ body {
     overflow-x: auto;
 }
 
-/* cartão (mesma linguagem visual dos forms de login: fundo claro, cantos arredondados) */
+/* cartão */
 
 .cartao {
     background-color: whitesmoke;
@@ -198,7 +198,7 @@ tr:hover td {
     margin-top: 1.2rem;
 }
 
-/* inputs, selects (mesmo padrão do .input usado no login e dashboard) */
+/* inputs & selects */
 
 .input {
     width: 100%;
@@ -218,7 +218,7 @@ tr:hover td {
     border-color: black;
 }
 
-/* botões (mesmo padrão do dashboard e login) */
+/* botões */
 
 button,
 .btn_sair {
