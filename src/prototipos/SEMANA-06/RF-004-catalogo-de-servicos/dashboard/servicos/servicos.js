@@ -274,7 +274,7 @@ function excluirServico(id) {
 }
 
 function sair() {
-    window.location.href = "../../app/RF-03.html";
+    window.location.href = "../../app/RF-004-catalogo-de-servicos.html";
 }
 
 // Inicializa ao carregar o script

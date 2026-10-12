@@ -35,7 +35,7 @@ barberflow/
         └── SEMANA-06/
             └── RF-004-catalogo-de-servicos/
                 ├── app/
-                │   ├── RF-03.html               <-- (Portal de Acesso e Autenticação)
+                │   ├── RF-004-catalogo-de-servicos.html               <-- (Portal de Acesso e Autenticação)
                 │   ├── style.css                <-- (Estilos visuais do portal)
                 │   └── app.js                   <-- (Lógica de autenticação e navegação)
                 ├── dashboard/
