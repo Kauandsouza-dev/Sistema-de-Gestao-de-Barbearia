@@ -5,8 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BarberFlow - Agendamentos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="dashboard.css">
-    <link rel="icon" type="image/png" href="../assets/icone_barbearia.webp">
+    <link rel="icon" type="image/webp" href="../assets/icone_barbearia.webp">
 </head>
 
 <body>
@@ -38,7 +41,7 @@
         <div class="cartao">
 
             <!-- Acessibilidade: aria-label para leitor de tela no campo de busca -->
-            <label for="busca" class="sr-only" style="display: none;">Buscar por cliente:</label>
+            <label for="busca" class="sr-only">Buscar por cliente:</label>
             <input class="input campo_busca" type="text" id="busca" placeholder="Buscar por cliente"
                 aria-label="Buscar por cliente" onkeyup="mostrarAgendamentos()">
 
@@ -92,6 +95,9 @@
                 <option value="Pendente">Pendente</option>
                 <option value="Cancelado">Cancelado</option>
             </select>
+
+            <!-- Mensagem de erro de validação (estado de erro do formulário) -->
+            <p id="mensagemErro" class="mensagem_erro" role="alert" hidden></p>
 
             <div class="linha_botoes">
                 <button class="btn_acao" onclick="salvarAgendamento()">Salvar</button>

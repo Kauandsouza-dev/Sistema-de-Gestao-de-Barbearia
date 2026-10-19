@@ -7,14 +7,25 @@ var idSendoEditado = null;
 // quando a página carrega, pega os dados salvos ou cria uns exemplos
 function iniciar() {
     var dadosSalvos = localStorage.getItem("agendamentos");
+    var listaLida = null;
 
-    if (dadosSalvos == null) {
-        agendamentos.push({ id: 1, cliente: "Kauan Souza", servico: "Corte + Barba", barbeiro: "Carlos Silva", data: "2025-09-15", hora: "14:30", status: "Confirmado" });
-        agendamentos.push({ id: 2, cliente: "Pedro Santos", servico: "Corte Masculino", barbeiro: "João Silva", data: "2025-09-16", hora: "09:00", status: "Pendente" });
-        agendamentos.push({ id: 3, cliente: "Bryant Lima", servico: "Barba", barbeiro: "Carlos Silva", data: "2025-09-16", hora: "11:15", status: "Cancelado" });
-        salvarNoLocalStorage();
+    // se o dado salvo estiver corrompido, o JSON.parse lança erro e a página inteira quebraria
+    if (dadosSalvos != null) {
+        try {
+            listaLida = JSON.parse(dadosSalvos);
+        } catch (erro) {
+            listaLida = null;
+        }
+    }
+
+    if (Array.isArray(listaLida)) {
+        agendamentos = listaLida;
     } else {
-        agendamentos = JSON.parse(dadosSalvos);
+        agendamentos = [];
+        agendamentos.push({ id: 1, cliente: "Kauan Souza", servico: "Corte + Barba", barbeiro: "Carlos Silva", data: "2026-10-20", hora: "14:30", status: "Confirmado" });
+        agendamentos.push({ id: 2, cliente: "Pedro Santos", servico: "Corte Masculino", barbeiro: "João Silva", data: "2026-10-21", hora: "09:00", status: "Pendente" });
+        agendamentos.push({ id: 3, cliente: "Bryant Lima", servico: "Barba", barbeiro: "Carlos Silva", data: "2026-10-21", hora: "11:15", status: "Cancelado" });
+        salvarNoLocalStorage();
     }
 
     mostrarAgendamentos();
@@ -134,7 +145,17 @@ function carregarSelectServicos(servicoSelecionado) {
     var dadosSalvos = localStorage.getItem("servicos");
     var listaServicos = [];
 
-    if (dadosSalvos == null) {
+    // mesma proteção: dado ausente ou corrompido cai na lista padrão
+    var listaLidaServicos = null;
+    if (dadosSalvos != null) {
+        try {
+            listaLidaServicos = JSON.parse(dadosSalvos);
+        } catch (erro) {
+            listaLidaServicos = null;
+        }
+    }
+
+    if (!Array.isArray(listaLidaServicos)) {
         listaServicos = [
             { id: 1, nome: "Corte Masculino", duracao: 30, preco: 35.00, status: "Ativo" },
             { id: 2, nome: "Barba", duracao: 25, preco: 25.00, status: "Ativo" },
@@ -144,7 +165,7 @@ function carregarSelectServicos(servicoSelecionado) {
         ];
         localStorage.setItem("servicos", JSON.stringify(listaServicos));
     } else {
-        listaServicos = JSON.parse(dadosSalvos);
+        listaServicos = listaLidaServicos;
     }
 
     var achouSelecionado = false;
@@ -178,6 +199,7 @@ function carregarSelectServicos(servicoSelecionado) {
 // abre o formulário vazio, pra criar um agendamento novo
 function abrirFormularioNovo() {
     idSendoEditado = null;
+    limparErroFormulario();
 
     carregarSelectServicos();
 
@@ -206,6 +228,7 @@ function abrirFormularioEdicao(id) {
     }
 
     idSendoEditado = id;
+    limparErroFormulario();
 
     carregarSelectServicos(agendamento.servico);
 
@@ -220,21 +243,86 @@ function abrirFormularioEdicao(id) {
 }
 
 function fecharFormulario() {
+    limparErroFormulario();
     document.getElementById("caixaFormulario").style.display = "none";
+}
+
+// mostra a mensagem de erro dentro do formulário e destaca o campo com problema (substitui o alert)
+function mostrarErroFormulario(mensagem, idCampo) {
+    limparErroFormulario();
+
+    var caixaErro = document.getElementById("mensagemErro");
+    caixaErro.innerText = mensagem;
+    caixaErro.hidden = false;
+
+    if (idCampo) {
+        var campo = document.getElementById(idCampo);
+        campo.classList.add("input_invalido");
+        campo.setAttribute("aria-invalid", "true");
+        campo.focus();
+    }
+}
+
+// tira a mensagem e o destaque vermelho de todos os campos
+function limparErroFormulario() {
+    document.getElementById("mensagemErro").hidden = true;
+
+    var campos = document.querySelectorAll("#caixaFormulario .input_invalido");
+    for (var i = 0; i < campos.length; i++) {
+        campos[i].classList.remove("input_invalido");
+        campos[i].removeAttribute("aria-invalid");
+    }
+}
+
+// true se já existe outro agendamento (não cancelado) com o mesmo barbeiro, data e hora
+function existeConflitoDeHorario(barbeiro, data, hora, idIgnorado) {
+    for (var i = 0; i < agendamentos.length; i++) {
+        var outro = agendamentos[i];
+
+        if (outro.id == idIgnorado) {
+            continue; // é o próprio agendamento que está sendo editado
+        }
+        if (outro.status == "Cancelado") {
+            continue; // horário cancelado volta a ficar livre
+        }
+        if (outro.barbeiro.toLowerCase() == barbeiro.toLowerCase() && outro.data == data && outro.hora == hora) {
+            return true;
+        }
+    }
+    return false;
 }
 
 // CREATE e UPDATE - salva o que tiver no formulário
 function salvarAgendamento() {
-    var cliente = document.getElementById("campoCliente").value;
+    // trim() tira espaços das pontas, assim "   " conta como campo vazio
+    var cliente = document.getElementById("campoCliente").value.trim();
     var servico = document.getElementById("campoServico").value;
-    var barbeiro = document.getElementById("campoBarbeiro").value;
+    var barbeiro = document.getElementById("campoBarbeiro").value.trim();
     var data = document.getElementById("campoData").value;
     var hora = document.getElementById("campoHora").value;
     var status = document.getElementById("campoStatus").value;
 
-    // validação bem simples, só confere se preencheu tudo
-    if (cliente == "" || barbeiro == "" || data == "" || hora == "") {
-        alert("Preencha todos os campos!");
+    // validação: mostra o erro no próprio formulário, no primeiro campo problemático
+    if (cliente == "") {
+        mostrarErroFormulario("Informe o nome do cliente.", "campoCliente");
+        return;
+    }
+    if (barbeiro == "") {
+        mostrarErroFormulario("Informe o nome do barbeiro.", "campoBarbeiro");
+        return;
+    }
+    if (data == "") {
+        mostrarErroFormulario("Escolha a data do agendamento.", "campoData");
+        return;
+    }
+    if (hora == "") {
+        mostrarErroFormulario("Escolha o horário do agendamento.", "campoHora");
+        return;
+    }
+
+    // regra de negócio: o mesmo barbeiro não pode ter dois clientes no mesmo horário
+    if (status != "Cancelado" && existeConflitoDeHorario(barbeiro, data, hora, idSendoEditado)) {
+        mostrarErroFormulario("Este barbeiro já tem um agendamento nesse dia e horário. Escolha outro horário.", "campoHora");
         return;
     }
 

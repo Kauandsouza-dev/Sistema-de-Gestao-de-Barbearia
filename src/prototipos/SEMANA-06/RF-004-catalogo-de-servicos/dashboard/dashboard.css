@@ -198,6 +198,37 @@ tr:hover td {
     margin-top: 1.2rem;
 }
 
+/* texto só para leitor de tela (continua na árvore de acessibilidade, ao contrário de display: none) */
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* estado de erro do formulário */
+
+.mensagem_erro {
+    margin-top: 1rem;
+    padding: 0.7rem 1rem;
+    border: 1px solid #d9534f;
+    border-radius: 0.5rem;
+    background-color: #fdecea;
+    color: #a94442;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.input_invalido {
+    border-color: #d9534f;
+}
+
 /* inputs, selects (mesmo padrão do .input usado no login) */
 
 .input {
