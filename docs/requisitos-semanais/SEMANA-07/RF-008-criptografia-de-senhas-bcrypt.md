@@ -37,10 +37,10 @@ barberflow/
 │           └── RF-008-criptografia-de-senhas-bcrypt.md   <-- (ESTE ARQUIVO DE ESPECIFICAÇÃO)
 └── src/
     └── prototipos/
-        └── SEMANA-06/
-            └── RF-004-catalogo-de-servicos/
+        └── SEMANA-07/
+            └── RF-008-criptografia-de-senhas-bcrypt/
                 ├── app/
-                │   ├── RF-004-catalogo-de-servicos.html   <-- (Portal com CDN Bcrypt e Supabase JS)
+                │   ├── login.html   <-- (Portal com CDN Bcrypt e Supabase JS)
                 │   ├── style.css                          <-- (Estilos visuais e feedback responsivo)
                 │   └── app.js                             <-- (Motor Bcrypt, Hash Assíncrono e Conexão BaaS)
                 ├── dashboard/
@@ -57,7 +57,7 @@ barberflow/
 ```
 
 * **Localização deste arquivo:** `docs/requisitos-semanais/SEMANA-07/RF-008-criptografia-de-senhas-bcrypt.md`
-* **Localização dos Protótipos:** `src/prototipos/SEMANA-06/RF-004-catalogo-de-servicos/app/`
+* **Localização dos Protótipos:** `src/prototipos/SEMANA-07/RF-008-criptografia-de-senhas-bcrypt/`
 
 ---
 
