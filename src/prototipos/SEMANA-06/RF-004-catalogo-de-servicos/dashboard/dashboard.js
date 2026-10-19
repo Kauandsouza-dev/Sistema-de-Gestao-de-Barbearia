@@ -40,12 +40,13 @@ function pegarClasseDoStatus(status) {
 // READ - monta a tabela na tela
 function mostrarAgendamentos() {
     var tabela = document.getElementById("tabela");
+    var corpoTabela = document.getElementById("corpoTabela");
     var textoBusca = document.getElementById("busca").value;
     textoBusca = textoBusca.toLowerCase();
 
-    // apaga todas as linhas, menos o cabeçalho (linha 0)
-    while (tabela.rows.length > 1) {
-        tabela.deleteRow(1);
+    // apaga todas as linhas do corpo da tabela (o cabeçalho fica no thead e não é mexido)
+    while (corpoTabela.rows.length > 0) {
+        corpoTabela.deleteRow(0);
     }
 
     var quantidadeMostrada = 0;
@@ -58,19 +59,37 @@ function mostrarAgendamentos() {
             continue; // não bate com a busca, pula esse
         }
 
-        var linha = tabela.insertRow();
+        // insere no tbody (se fosse na tabela direto, a linha cairia dentro do thead)
+        var linha = corpoTabela.insertRow();
 
-        linha.insertCell(0).innerText = ag.cliente;
-        linha.insertCell(1).innerText = ag.servico;
-        linha.insertCell(2).innerText = ag.barbeiro;
-        linha.insertCell(3).innerText = ag.data;
-        linha.insertCell(4).innerText = ag.hora;
+        // data-label = nome da coluna, usado pelo CSS pra montar o cartão no celular
+        var celulaCliente = linha.insertCell(0);
+        celulaCliente.innerText = ag.cliente;
+        celulaCliente.setAttribute("data-label", "Cliente");
+
+        var celulaServico = linha.insertCell(1);
+        celulaServico.innerText = ag.servico;
+        celulaServico.setAttribute("data-label", "Serviço");
+
+        var celulaBarbeiro = linha.insertCell(2);
+        celulaBarbeiro.innerText = ag.barbeiro;
+        celulaBarbeiro.setAttribute("data-label", "Barbeiro");
+
+        var celulaData = linha.insertCell(3);
+        celulaData.innerText = ag.data;
+        celulaData.setAttribute("data-label", "Data");
+
+        var celulaHora = linha.insertCell(4);
+        celulaHora.innerText = ag.hora;
+        celulaHora.setAttribute("data-label", "Hora");
 
         var celulaStatus = linha.insertCell(5);
         celulaStatus.innerText = ag.status;
         celulaStatus.className = pegarClasseDoStatus(ag.status);
+        celulaStatus.setAttribute("data-label", "Status");
 
         var celulaAcoes = linha.insertCell(6);
+        celulaAcoes.setAttribute("data-label", "Ações");
 
         var botaoEditar = document.createElement("button");
         botaoEditar.innerText = "Editar";
@@ -101,7 +120,7 @@ function mostrarAgendamentos() {
         tabela.style.display = "none";
     } else {
         document.getElementById("mensagemVazia").style.display = "none";
-        tabela.style.display = "table";
+        tabela.style.display = "";
     }
 }
 

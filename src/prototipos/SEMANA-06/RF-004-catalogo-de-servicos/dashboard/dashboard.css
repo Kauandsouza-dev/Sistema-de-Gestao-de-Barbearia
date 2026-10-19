@@ -283,28 +283,126 @@ button {
 
 /* responsividade */
 
-@media (max-width: 600px) {
+/* a tabela de 7 colunas precisa de ~660px, então vira cartões antes disso */
+@media (max-width: 720px) {
+
+    /* topo: logo + sair na 1ª linha, menu ocupando a 2ª linha inteira */
     .topo {
-        flex-direction: column;
-        gap: 0.8rem;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 0.75rem;
         padding: 1rem;
     }
 
-    .menu_centro {
-        gap: 0.5rem;
-        flex-wrap: wrap;
+    .cabecalho {
+        order: 1;
     }
 
+    .cabecalho h2 {
+        font-size: 1.15rem;
+    }
+
+    .lado_direito {
+        order: 2;
+    }
+
+    .menu_centro {
+        order: 3;
+        width: 100%;
+        gap: 0.5rem;
+    }
+
+    .link_menu {
+        flex: 1;
+        text-align: center;
+        padding: 0.6rem 0.5rem;
+        font-size: 0.85rem;
+    }
+
+    /* conteúdo */
     .conteudo {
         padding: 1.5rem 1rem;
     }
 
-    table,
-    thead,
-    tbody,
-    th,
-    td,
-    tr {
-        font-size: 0.8rem;
+    .linha_titulo {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .linha_titulo .btn_acao {
+        width: 100%;
+    }
+
+    .campo_busca {
+        max-width: 100%;
+    }
+
+    .cartao {
+        padding: 1rem;
+    }
+
+    .caixa_formulario {
+        max-width: 100%;
+    }
+
+    .linha_botoes .btn_acao,
+    .linha_botoes .btn_cancelar {
+        flex: 1;
+    }
+
+    /* tabela vira lista de cartões: cada linha = 1 agendamento */
+    #tabela,
+    #tabela tbody,
+    #tabela tr,
+    #tabela td {
+        display: block;
+        width: 100%;
+    }
+
+    #tabela thead {
+        display: none; /* os rótulos vêm do data-label de cada célula */
+    }
+
+    #tabela tr {
+        border: 1px solid #d0d0d0;
+        border-radius: 0.5rem;
+        background-color: #fff;
+        padding: 0.5rem 0.9rem;
+        margin-bottom: 0.8rem;
+    }
+
+    #tabela tr:hover td {
+        background-color: transparent;
+    }
+
+    #tabela td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        text-align: right;
+        padding: 0.45rem 0;
+        border-bottom: 1px solid #eeeeee;
+        font-size: 0.9rem;
+    }
+
+    #tabela td:last-child {
+        border-bottom: none;
+        justify-content: flex-end;
+        padding-top: 0.7rem;
+    }
+
+    #tabela td::before {
+        content: attr(data-label);
+        font-weight: bolder;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: #666;
+        text-align: left;
+        flex-shrink: 0;
+    }
+
+    #tabela td:last-child::before {
+        display: none;
     }
 }
