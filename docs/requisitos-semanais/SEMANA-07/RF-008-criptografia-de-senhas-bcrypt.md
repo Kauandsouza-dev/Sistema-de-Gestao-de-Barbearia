@@ -69,7 +69,7 @@ barberflow/
 | **Título do Requisito** | Criptografia de Senhas com Algoritmo Bcrypt e Persistência Relacional Segura no Banco de Dados (Supabase/PostgreSQL) |
 | **Tipo de Requisito** | Requisito Funcional (RF) / Segurança da Informação |
 | **Prioridade de Negócio** | **CRÍTICA** (Bloqueador de segurança; conformidade obrigatória com a LGPD e normas OWASP) |
-| **Complexidade Técnica** | **ALTA** (8 Story Points — Hashing com Salt Rounds adaptativo, operações assíncronas assíncronas `async/await`, mitigação de vulnerabilidades e integração com banco em nuvem) |
+| **Complexidade Técnica** | **ALTA** (8 Story Points — Hashing com Salt Rounds adaptativo, operações assíncronas `async/await`, mitigação de vulnerabilidades e integração com banco em nuvem) |
 | **Status de Desenvolvimento**| **CONCLUÍDO E VALIDADO** |
 | **Data de Criação** | 12/10/2026 |
 | **Data da Última Revisão** | 18/10/2026 |
@@ -114,7 +114,7 @@ O requisito **RF-008** estabelece o mecanismo definitivo de segurança e privaci
 
 ### 📌 UC-008.1: Cadastro de Usuário com Geração de Salt e Hashing Bcrypt (CREATE)
 * **Ator Principal:** Cliente / Novo Usuário.
-* **Pré-condições:** Navegador conectado à internet, interface `RF-004-catalogo-de-servicos.html` carregada com scripts CDN ativos.
+* **Pré-condições:** Navegador conectado à internet, interface `login.html` carregada com scripts CDN ativos.
 * **Gatilho:** Submissão das etapas 1 e 2 no formulário de cadastro.
 * **Fluxo Principal:**
   1. O usuário clica no link *"Não tem uma conta? Crie aqui!"*, ativando a classe `.modo_cadastro`.
@@ -226,9 +226,9 @@ O requisito **RF-008** estabelece o mecanismo definitivo de segurança e privaci
 
 | Arquivo Físico | Papel no Módulo RF-008 |
 |---|---|
-| `src/prototipos/SEMANA-06/RF-004-catalogo-de-servicos/app/RF-004-catalogo-de-servicos.html` | Interface do portal de acesso, incluindo formulário de login, etapas de cadastro (com campo Nome e Senhas) e importação dos scripts do Supabase e Bcrypt via CDN. |
-| `src/prototipos/SEMANA-06/RF-004-catalogo-de-servicos/app/app.js` | Motor de segurança assíncrono: instancia o cliente Supabase, captura dados do formulário, gera o salt e hash com `dcodeIO.bcrypt`, efetua inserção e autentica credenciais. |
-| `src/prototipos/SEMANA-06/RF-004-catalogo-de-servicos/app/style.css` | Folha de estilo com tema claro/escuro, transições suaves entre abas de login/cadastro e feedback visual de erros e sucesso. |
+| `src/prototipos/SEMANA-07/RF-008-criptografia-de-senhas-bcrypt/app/login.html` | Interface do portal de acesso, incluindo formulário de login, etapas de cadastro (com campo Nome e Senhas) e importação dos scripts do Supabase e Bcrypt via CDN. |
+| `src/prototipos/SEMANA-07/RF-008-criptografia-de-senhas-bcrypt/app/app.js` | Motor de segurança assíncrono: instancia o cliente Supabase, captura dados do formulário, gera o salt e hash com `dcodeIO.bcrypt`, efetua inserção e autentica credenciais. |
+| `src/prototipos/SEMANA-07/RF-008-criptografia-de-senhas-bcrypt/app/style.css` | Folha de estilo com tema claro/escuro, transições suaves entre abas de login/cadastro e feedback visual de erros e sucesso. |
 
 ---
 
@@ -446,7 +446,7 @@ O diagrama abaixo ilustra a integração da camada de apresentação (HTML/CSS),
 - [x] Ausência total de erros ortográficos e gramaticais na documentação técnica.
 - [x] Conformidade estrita com o Protocolo de Requisitos Semanais do Prof. Edilberto Silva (2026).
 - [x] Estrutura de pastas 100% condizente com a hierarquia física real do repositório BarberFlow.
-- [x] Mapeamento minucioso dos arquivos alterados (`RF-004-catalogo-de-servicos.html` e `app.js`).
+- [x] Mapeamento minucioso dos arquivos alterados (`login.html` e `app.js`).
 - [x] Inclusão de código real com antes/depois demonstrando a evolução de texto puro para Bcrypt.
 - [x] Diagramas de arquitetura e casos de uso em ASCII e Mermaid legíveis e semanticamente corretos.
 - [x] Definição de 8 Regras de Negócio (RNs) e 8 Requisitos Não-Funcionais (RNFs) aprofundados.
