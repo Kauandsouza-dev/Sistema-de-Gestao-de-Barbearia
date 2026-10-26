@@ -1,0 +1,619 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Raleway", sans-serif;
+    background-color: #14161c;
+    color: #f2f2f2;
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 2rem;
+    background-color: #1c1f26;
+    border-bottom: 1px solid #2c2f38;
+}
+
+.cabecalho {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.cabecalho h2 {
+    font-size: 1.4rem;
+    letter-spacing: 0.03em;
+}
+
+.icone_barbearia {
+    width: 42px;
+    height: 42px;
+    border-radius: 20%;
+    object-fit: cover;
+}
+
+.menu_centro {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.link_menu {
+    color: #a6abb8;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.5rem 0.85rem;
+    border-radius: 0.4rem;
+    transition: 0.2s ease;
+}
+
+.link_menu:hover {
+    color: #ffffff;
+    background-color: #2c2f38;
+}
+
+.link_menu.link_ativo {
+    color: #ffffff;
+    background-color: #2c2f38;
+    font-weight: bolder;
+}
+
+.lado_direito {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+}
+
+.info_usuario {
+    font-size: 0.85rem;
+    color: #a6abb8;
+    font-weight: 600;
+}
+
+.conteudo {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+.painel_metricas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.card_metrica {
+    flex: 1;
+    min-width: 200px;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.4rem;
+}
+
+.rotulo_metrica {
+    font-size: 0.8rem;
+    font-weight: bolder;
+    text-transform: uppercase;
+    color: #666;
+}
+
+.valor_metrica {
+    font-size: 1.6rem;
+    font-weight: bolder;
+    color: #1f1f1f;
+}
+
+.subtexto_metrica {
+    font-size: 0.8rem;
+    color: #555;
+    font-weight: 600;
+}
+
+.contadores_status {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-top: 0.2rem;
+}
+
+.item_contador {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.titulo_secao_cartao {
+    font-size: 1.05rem;
+    font-weight: bolder;
+    color: #1f1f1f;
+    margin-bottom: 0.75rem;
+}
+
+.cabecalho_secao_cartao {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+}
+
+.cabecalho_secao_cartao .titulo_secao_cartao {
+    margin-bottom: 0;
+}
+
+.mensagem_vazia_interna {
+    display: none;
+    text-align: center;
+    color: #777;
+    padding: 1.2rem 0;
+}
+
+.formulario_interno {
+    margin-top: 1.2rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid #d0d0d0;
+}
+
+.linha_titulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.linha_titulo h2 {
+    font-size: 1.6rem;
+    font-weight: bolder;
+}
+
+.cartao {
+    background-color: whitesmoke;
+    color: #1f1f1f;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.campo_busca {
+    max-width: 280px;
+    margin-bottom: 1rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5rem;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 0.75rem 0.6rem;
+    border-bottom: 1px solid #d0d0d0;
+    font-size: 0.9rem;
+}
+
+th {
+    color: #666;
+    font-weight: bolder;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+tr:hover td {
+    background-color: #ececec;
+}
+
+#mensagemVazia {
+    display: none;
+    text-align: center;
+    color: #777;
+    padding: 1.5rem 0;
+}
+
+.status_confirmado {
+    color: #16a34a;
+    font-weight: bolder;
+}
+
+.status_pendente {
+    color: #ca8a04;
+    font-weight: bolder;
+}
+
+.status_cancelado {
+    color: #dc2626;
+    font-weight: bolder;
+}
+
+.caixa_formulario {
+    max-width: 440px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    animation: fadeIn 0.3s ease;
+}
+
+.bloco_horarios {
+    margin-top: 0.4rem;
+    margin-bottom: 0.2rem;
+}
+
+.rotulo_horarios {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 0.35rem;
+}
+
+.tabela_horarios {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0.35rem;
+    margin-top: 0;
+}
+
+.tabela_horarios td {
+    padding: 0;
+    border-bottom: none;
+    text-align: center;
+}
+
+.tabela_horarios tr:hover td {
+    background-color: transparent;
+}
+
+.btn_horario {
+    width: 100%;
+    padding: 0.45rem 0.3rem;
+    background-color: #ffffff;
+    color: #1f1f1f;
+    border: 1px solid #d0d0d0;
+    border-radius: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.btn_horario:hover {
+    background-color: #e5e5e5;
+    border-color: #1f1f1f;
+}
+
+.btn_horario.horario_selecionado {
+    background-color: #1f1f1f;
+    color: #ffffff;
+    border-color: #1f1f1f;
+    font-weight: bolder;
+}
+
+.btn_horario.horario_ocupado {
+    background-color: #fdecea;
+    color: #a94442;
+    border-color: #f2b8b8;
+    cursor: not-allowed;
+    opacity: 0.75;
+}
+
+.caixa_formulario h3 {
+    font-size: 1.3rem;
+    font-weight: bolder;
+    margin-bottom: 0.5rem;
+}
+
+.caixa_formulario label {
+    font-size: 0.9rem;
+    font-weight: bolder;
+    color: #333;
+    margin-top: 0.4rem;
+}
+
+.linha_botoes {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.2rem;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.mensagem_erro {
+    margin-top: 1rem;
+    padding: 0.7rem 1rem;
+    border: 1px solid #d9534f;
+    border-radius: 0.5rem;
+    background-color: #fdecea;
+    color: #a94442;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.input_invalido {
+    border-color: #d9534f;
+}
+
+.input {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.7rem 1rem;
+    background-color: #fff;
+    border: 1px solid #d0d0d0;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    color: #1f1f1f;
+    transition: 0.2s ease;
+}
+
+.input:focus {
+    outline: none;
+    border-color: black;
+}
+
+.input:disabled {
+    background-color: #e9e9e9;
+    color: #555;
+    cursor: not-allowed;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    border-radius: 0.5rem;
+    transition: 0.2s ease;
+}
+
+.btn_acao {
+    min-height: 44px;
+    padding: 0.7rem 1.2rem;
+    background-color: #1f1f1f;
+    color: white;
+    font-size: 0.95rem;
+    font-weight: bolder;
+}
+
+.btn_acao:hover {
+    background-color: #302e2e;
+}
+
+.btn_cancelar {
+    min-height: 44px;
+    padding: 0.7rem 1.2rem;
+    background-color: transparent;
+    color: #1f1f1f;
+    font-size: 0.95rem;
+    font-weight: bolder;
+    border: 1px solid #d0d0d0;
+}
+
+.btn_cancelar:hover {
+    background-color: #e5e5e5;
+}
+
+.btn_sair {
+    padding: 0.5rem 1rem;
+    background-color: #2c2f38;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.btn_sair:hover {
+    background-color: #3a3d47;
+}
+
+.btn_tabela {
+    padding: 0.4rem 0.7rem;
+    background-color: #e5e5e5;
+    color: #1f1f1f;
+    font-size: 0.8rem;
+    margin-right: 0.3rem;
+}
+
+.btn_tabela:hover {
+    background-color: #d4d4d4;
+}
+
+.btn_aprovar {
+    background-color: #dcfce7;
+    color: #15803d;
+    font-weight: 700;
+}
+
+.btn_aprovar:hover {
+    background-color: #bbf7d0;
+}
+
+.btn_excluir:hover {
+    background-color: #f2b8b8;
+}
+
+@media (max-width: 720px) {
+
+    .topo {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+
+    .cabecalho {
+        order: 1;
+    }
+
+    .cabecalho h2 {
+        font-size: 1.15rem;
+    }
+
+    .lado_direito {
+        order: 2;
+    }
+
+    .menu_centro {
+        order: 3;
+        width: 100%;
+        gap: 0.5rem;
+    }
+
+    .link_menu {
+        flex: 1;
+        text-align: center;
+        padding: 0.6rem 0.5rem;
+        font-size: 0.85rem;
+    }
+
+    .conteudo {
+        padding: 1.5rem 1rem;
+    }
+
+    .painel_metricas {
+        flex-direction: column;
+    }
+
+    .linha_titulo {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .linha_titulo .btn_acao {
+        width: 100%;
+    }
+
+    .cabecalho_secao_cartao {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .cabecalho_secao_cartao .btn_acao {
+        width: 100%;
+    }
+
+    .campo_busca {
+        max-width: 100%;
+    }
+
+    .cartao {
+        padding: 1rem;
+    }
+
+    .caixa_formulario {
+        max-width: 100%;
+    }
+
+    .linha_botoes .btn_acao,
+    .linha_botoes .btn_cancelar {
+        flex: 1;
+    }
+
+    #tabela,
+    #tabela tbody,
+    #tabela tr,
+    #tabela td,
+    #tabelaBarbeiros,
+    #tabelaBarbeiros tbody,
+    #tabelaBarbeiros tr,
+    #tabelaBarbeiros td,
+    #tabelaGestaoBarbeiros,
+    #tabelaGestaoBarbeiros tbody,
+    #tabelaGestaoBarbeiros tr,
+    #tabelaGestaoBarbeiros td {
+        display: block;
+        width: 100%;
+    }
+
+    #tabela thead,
+    #tabelaBarbeiros thead,
+    #tabelaGestaoBarbeiros thead {
+        display: none;
+    }
+
+    #tabela tr,
+    #tabelaBarbeiros tr,
+    #tabelaGestaoBarbeiros tr {
+        border: 1px solid #d0d0d0;
+        border-radius: 0.5rem;
+        background-color: #fff;
+        padding: 0.5rem 0.9rem;
+        margin-bottom: 0.8rem;
+    }
+
+    #tabela tr:hover td,
+    #tabelaBarbeiros tr:hover td,
+    #tabelaGestaoBarbeiros tr:hover td {
+        background-color: transparent;
+    }
+
+    #tabela td,
+    #tabelaBarbeiros td,
+    #tabelaGestaoBarbeiros td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        text-align: right;
+        padding: 0.45rem 0;
+        border-bottom: 1px solid #eeeeee;
+        font-size: 0.9rem;
+    }
+
+    #tabela td:last-child,
+    #tabelaBarbeiros td:last-child,
+    #tabelaGestaoBarbeiros td:last-child {
+        border-bottom: none;
+    }
+
+    #tabela td:last-child,
+    #tabelaGestaoBarbeiros td:last-child {
+        justify-content: flex-end;
+        padding-top: 0.7rem;
+    }
+
+    #tabela td::before,
+    #tabelaBarbeiros td::before,
+    #tabelaGestaoBarbeiros td::before {
+        content: attr(data-label);
+        font-weight: bolder;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: #666;
+        text-align: left;
+        flex-shrink: 0;
+    }
+
+    #tabela td:last-child::before,
+    #tabelaGestaoBarbeiros td:last-child::before {
+        display: none;
+    }
+}

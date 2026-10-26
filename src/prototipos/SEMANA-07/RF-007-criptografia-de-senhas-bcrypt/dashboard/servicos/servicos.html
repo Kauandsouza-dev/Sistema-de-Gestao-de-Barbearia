@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BarberFlow - Catálogo de Serviços</title>
+    <link rel="stylesheet" href="servicos.css">
+    <link rel="icon" type="image/png" href="../../assets/icone_barbearia.webp">
+</head>
+
+<body>
+
+    <header class="topo">
+        <div class="cabecalho">
+            <!-- Imagem otimizada em formato WebP -->
+            <img src="../../assets/icone_barbearia.webp" alt="Ícone da Barbearia BarberFlow" class="icone_barbearia">
+            <h2>BARBERFLOW</h2>
+        </div>
+
+        <nav class="menu_centro" aria-label="Menu principal">
+            <a href="../dashboard.html" class="link_menu">Agendamentos</a>
+            <a href="servicos.html" class="link_menu link_ativo">Catálogo de Serviços</a>
+        </nav>
+
+        <div class="lado_direito">
+            <button class="btn_sair" onclick="sair()">Sair</button>
+        </div>
+    </header>
+
+    <main class="conteudo">
+
+        <div class="linha_titulo">
+            <h2>Catálogo de Serviços</h2>
+            <button id="botaoNovo" class="btn_acao" onclick="abrirFormularioNovo()">+ Novo Serviço</button>
+        </div>
+
+        <div class="cartao">
+
+            <!-- Campo de busca -->
+            <label for="busca" class="sr-only" style="display: none;">Buscar por serviço:</label>
+            <input class="input campo_busca" type="text" id="busca" placeholder="Buscar por serviço"
+                aria-label="Buscar por serviço" onkeyup="mostrarServicos()">
+
+            <div class="tabela_container">
+                <table id="tabela">
+                    <thead>
+                        <tr>
+                            <th scope="col">Serviço</th>
+                            <th scope="col">Descrição</th>
+                            <th scope="col">Duração</th>
+                            <th scope="col">Preço (R$)</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpoTabela">
+                        <!-- Linhas geradas dinamicamente via servicos.js -->
+                    </tbody>
+                </table>
+            </div>
+
+            <p id="mensagemVazia">Nenhum serviço encontrado.</p>
+
+        </div>
+
+        <!-- Formulário de cadastro / edição -->
+        <div id="caixaFormulario" class="cartao caixa_formulario" style="display: none;">
+
+            <h3 id="tituloFormulario">Novo Serviço</h3>
+
+            <label for="campoNome">Nome do Serviço: *</label>
+            <input class="input" type="text" id="campoNome" placeholder="Ex: Corte Masculino, Nevou/Platinado">
+
+            <label for="campoDescricao">Descrição (opcional):</label>
+            <input class="input" type="text" id="campoDescricao" placeholder="Ex: Corte com acabamento na tesoura e máquina">
+
+            <label for="campoDuracao">Duração Estimada (minutos): *</label>
+            <input class="input" type="number" id="campoDuracao" placeholder="Ex: 30" min="5" step="5">
+
+            <label for="campoPreco">Preço (R$): *</label>
+            <input class="input" type="number" id="campoPreco" placeholder="Ex: 35.00" min="0" step="0.50">
+
+            <label for="campoStatus">Status:</label>
+            <select class="input" id="campoStatus">
+                <option value="Ativo">Ativo</option>
+                <option value="Inativo">Inativo</option>
+            </select>
+
+            <div class="linha_botoes">
+                <button class="btn_acao" onclick="salvarServico()">Salvar</button>
+                <button class="btn_cancelar" onclick="fecharFormulario()">Cancelar</button>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="servicos.js"></script>
+</body>
+
+</html>
