@@ -7,7 +7,7 @@
  *   - Administrador: Faturamento Geral (100%), Cota Salão (30%), Repasses (70%), Gestão Completa.
  *   - Barbeiro: Apenas sua comissão individual (70%), seus atendimentos e checkout.
  *   - Cliente: Apenas seus agendamentos e histórico (Métricas de receita totalmente ocultas).
- * Protocolo v14.3 (Zero alert(), interface acessível)
+ * Protocolo v14.3 (Interface 100% sem popup bloqueante, acessível e segura)
  */
 
 const SUPABASE_URL = "https://qqxntkifbvzcneaqbhae.supabase.co";

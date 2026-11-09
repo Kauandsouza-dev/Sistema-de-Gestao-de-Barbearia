@@ -1,7 +1,7 @@
 /**
  * BarberFlow - Autenticação & Cadastro (SEMANA-09 / RF-009)
  * Suporte a Criptografia com Bcrypt, Supabase e Persistência Local Resiliente
- * Compatível com Protocolo v14.3 (Zero alert(), feedback visual em tempo real)
+ * Compatível com Protocolo v14.3 (Interface 100% sem popup bloqueante, feedback visual em tempo real)
  */
 
 const SUPABASE_URL = "https://qqxntkifbvzcneaqbhae.supabase.co";
