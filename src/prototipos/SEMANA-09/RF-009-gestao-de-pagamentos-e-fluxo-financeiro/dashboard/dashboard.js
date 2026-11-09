@@ -1,11 +1,14 @@
-﻿/**
+/**
  * BarberFlow - Dashboard & Gestão de Pagamentos (SEMANA-09 / RF-009)
  * Regra de Repasse 70% / 30% (Lei do Salão-Parceiro)
  * Conciliação Financeira: Receita Prevista vs. Receita Efetivada
- * Conformidade com Protocolo v14.3 (Zero alert(), RBAC estrito)
+ * RBAC Rigoroso:
+ *   - Administrador: Faturamento Geral (100%), Cota Salão (30%), Repasses (70%), Gestão Completa.
+ *   - Barbeiro: Apenas sua comissão individual (70%), seus atendimentos e checkout.
+ *   - Cliente: Apenas seus agendamentos e histórico (Métricas de receita totalmente ocultas).
+ * Protocolo v14.3 (Zero alert(), interface acessível)
  */
 
-// Estado global do usuário logado
 let usuarioLogado = null;
 let agendamentoEmCheckout = null;
 
@@ -45,24 +48,60 @@ function configurarPerfilRBAC() {
 
     const linkBarbeiros = document.getElementById("linkBarbeiros");
     const botaoNovo = document.getElementById("botaoNovo");
+    const painelMetricas = document.getElementById("painelMetricas");
     const cartaoRepasse = document.getElementById("cartaoRepasseBarbeiros");
     const cardDivisao = document.getElementById("cardDivisaoSalao");
     const rotuloEfetivado = document.getElementById("rotuloEfetivado");
     const subtextoEfetivado = document.getElementById("subtextoEfetivado");
+    const rotuloPrevisto = document.getElementById("rotuloPrevisto");
+    const subtextoPrevisto = document.getElementById("subtextoPrevisto");
+    const tituloPagina = document.getElementById("tituloPagina");
 
-    // Perfil Barbeiro
-    if (usuarioLogado.perfil === "barbeiro") {
+    // ==========================================
+    // PERFIL CLIENTE:
+    // O Cliente NUNCA deve ver dados financeiros,
+    // faturamento da empresa ou tabelas de repasse!
+    // ==========================================
+    if (usuarioLogado.perfil === "cliente") {
+        if (painelMetricas) painelMetricas.style.display = "none";
+        if (cartaoRepasse) cartaoRepasse.style.display = "none";
         if (linkBarbeiros) linkBarbeiros.style.display = "none";
-        if (cardDivisao) cardDivisao.style.display = "none";
-        if (rotuloEfetivado) rotuloEfetivado.textContent = "Minha Comissão (70%)";
-        if (subtextoEfetivado) subtextoEfetivado.textContent = "Total faturado dos meus atendimentos pagos";
+        if (tituloPagina) tituloPagina.textContent = "Meus Agendamentos";
+        if (botaoNovo) botaoNovo.textContent = "+ Agendar Horário";
+        return;
     }
 
-    // Perfil Cliente
-    if (usuarioLogado.perfil === "cliente") {
+    // ==========================================
+    // PERFIL BARBEIRO:
+    // Vê apenas seus próprios atendimentos e sua
+    // comissão individual de 70%.
+    // ==========================================
+    if (usuarioLogado.perfil === "barbeiro") {
+        if (painelMetricas) painelMetricas.style.display = "flex";
         if (linkBarbeiros) linkBarbeiros.style.display = "none";
-        if (cartaoRepasse) cartaoRepasse.style.display = "none";
-        if (cardDivisao) cardDivisao.style.display = "none";
+        if (cardDivisao) cardDivisao.style.display = "none"; // Cota do salão oculta para o barbeiro
+        if (rotuloEfetivado) rotuloEfetivado.textContent = "Minha Comissão Recebida (70%)";
+        if (subtextoEfetivado) subtextoEfetivado.textContent = "Total dos seus serviços pagos";
+        if (rotuloPrevisto) rotuloPrevisto.textContent = "Minha Previsão a Receber (70%)";
+        if (subtextoPrevisto) subtextoPrevisto.textContent = "Comissão prevista dos próximos agendamentos";
+        if (tituloPagina) tituloPagina.textContent = "Meus Atendimentos na Barbearia";
+        return;
+    }
+
+    // ==========================================
+    // PERFIL ADMINISTRADOR:
+    // Controle total e visão macro do negócio.
+    // ==========================================
+    if (usuarioLogado.perfil === "admin") {
+        if (painelMetricas) painelMetricas.style.display = "flex";
+        if (cartaoRepasse) cartaoRepasse.style.display = "block";
+        if (cardDivisao) cardDivisao.style.display = "flex";
+        if (linkBarbeiros) linkBarbeiros.style.display = "inline-block";
+        if (rotuloEfetivado) rotuloEfetivado.textContent = "Receita Efetivada (Caixa Real)";
+        if (subtextoEfetivado) subtextoEfetivado.textContent = "Soma dos serviços já pagos (100%)";
+        if (rotuloPrevisto) rotuloPrevisto.textContent = "Receita Prevista (A Receber)";
+        if (subtextoPrevisto) subtextoPrevisto.textContent = "Agendamentos pendentes e confirmados";
+        if (tituloPagina) tituloPagina.textContent = "Agenda de Atendimentos & Caixa";
     }
 }
 
@@ -181,6 +220,11 @@ function obterBarbeiros() {
 
 // 3. Métricas Financeiras (Previsão vs. Efetivado & Regra 70/30)
 function atualizarMetricasFinanceiras() {
+    // Cliente não processa e não visualiza métricas de faturamento
+    if (!usuarioLogado || usuarioLogado.perfil === "cliente") {
+        return;
+    }
+
     const lista = obterAgendamentos();
     let totalEfetivado = 0;
     let totalPrevisto = 0;
@@ -188,13 +232,16 @@ function atualizarMetricasFinanceiras() {
     let qtdConfirmados = 0;
     let qtdPendentes = 0;
 
-    const isBarbeiro = usuarioLogado && usuarioLogado.perfil === "barbeiro";
-    const nomeBarbeiroLogado = isBarbeiro ? usuarioLogado.nome.toLowerCase() : "";
+    const isBarbeiro = (usuarioLogado.perfil === "barbeiro");
+    const nomeBarbeiroLogado = isBarbeiro ? (usuarioLogado.nome || "").toLowerCase() : "";
 
     lista.forEach(ag => {
-        // Se for barbeiro, filtra apenas suas métricas
-        if (isBarbeiro && !ag.barbeiro.toLowerCase().includes(nomeBarbeiroLogado)) {
-            return;
+        // Se for Barbeiro, filtra estritamente seus próprios atendimentos
+        if (isBarbeiro) {
+            const agBarb = (ag.barbeiro || "").toLowerCase();
+            if (!agBarb.includes(nomeBarbeiroLogado)) {
+                return;
+            }
         }
 
         const preco = parseFloat(ag.preco) || 0;
@@ -213,23 +260,25 @@ function atualizarMetricasFinanceiras() {
 
     const repasseBarbeiros70 = totalEfetivado * 0.70;
     const parteSalao30 = totalEfetivado * 0.30;
+    const previstoBarbeiro70 = totalPrevisto * 0.70;
 
-    // Atualização dos elementos na UI
     const elEfetivado = document.getElementById("valorEfetivado");
     const elPrevisto = document.getElementById("valorPrevisto");
     const elParteSalao = document.getElementById("valorParteSalao");
     const elDetalheRepasse = document.getElementById("detalheRepasseBarbeiro");
 
     if (elEfetivado) {
-        if (isBarbeiro) {
-            elEfetivado.textContent = formatarMoeda(repasseBarbeiros70);
-        } else {
-            elEfetivado.textContent = formatarMoeda(totalEfetivado);
-        }
+        elEfetivado.textContent = isBarbeiro ? formatarMoeda(repasseBarbeiros70) : formatarMoeda(totalEfetivado);
     }
-    if (elPrevisto) elPrevisto.textContent = formatarMoeda(totalPrevisto);
-    if (elParteSalao) elParteSalao.textContent = formatarMoeda(parteSalao30);
-    if (elDetalheRepasse) elDetalheRepasse.textContent = `Repasse Barbeiros (70%): ${formatarMoeda(repasseBarbeiros70)}`;
+    if (elPrevisto) {
+        elPrevisto.textContent = isBarbeiro ? formatarMoeda(previstoBarbeiro70) : formatarMoeda(totalPrevisto);
+    }
+    if (elParteSalao) {
+        elParteSalao.textContent = formatarMoeda(parteSalao30);
+    }
+    if (elDetalheRepasse) {
+        elDetalheRepasse.textContent = `Repasse Barbeiros (70%): ${formatarMoeda(repasseBarbeiros70)}`;
+    }
 
     const elQtdPagos = document.getElementById("qtdPagos");
     const elQtdConfirmados = document.getElementById("qtdConfirmados");
@@ -245,19 +294,24 @@ function atualizarTabelaRepasseBarbeiros() {
     const corpo = document.getElementById("corpoTabelaBarbeiros");
     if (!corpo) return;
 
+    // Cliente nunca visualiza a tabela de fechamento de caixa
+    if (!usuarioLogado || usuarioLogado.perfil === "cliente") {
+        corpo.innerHTML = "";
+        return;
+    }
+
     corpo.innerHTML = "";
     const agendamentos = obterAgendamentos();
     const barbeiros = obterBarbeiros();
 
-    const isBarbeiro = usuarioLogado && usuarioLogado.perfil === "barbeiro";
-    const nomeBarbeiroLogado = isBarbeiro ? usuarioLogado.nome.toLowerCase() : "";
+    const isBarbeiro = (usuarioLogado.perfil === "barbeiro");
+    const nomeBarbeiroLogado = isBarbeiro ? (usuarioLogado.nome || "").toLowerCase() : "";
 
     barbeiros.forEach(b => {
         if (isBarbeiro && !b.nome.toLowerCase().includes(nomeBarbeiroLogado)) {
             return;
         }
 
-        // Filtra atendimentos pagos desse barbeiro
         const pagosDoBarbeiro = agendamentos.filter(ag =>
             ag.barbeiro.toLowerCase().includes(b.nome.toLowerCase()) && ag.status === "Pago"
         );
@@ -283,7 +337,7 @@ function atualizarTabelaRepasseBarbeiros() {
 function mostrarAgendamentos() {
     const corpo = document.getElementById("corpoTabela");
     const msgVazia = document.getElementById("mensagemVazia");
-    const busca = document.getElementById("busca") ? document.getElementById("busca").value.toLowerCase() : "";
+    const busca = document.getElementById("busca") ? document.getElementById("busca").value.toLowerCase().trim() : "";
     const filtroStatus = document.getElementById("filtroStatus") ? document.getElementById("filtroStatus").value : "todos";
 
     if (!corpo) return;
@@ -291,19 +345,27 @@ function mostrarAgendamentos() {
 
     let lista = obterAgendamentos();
 
-    // Filtro por Perfil RBAC
+    // ==========================================
+    // Filtro RBAC Estrito por Perfil de Acesso
+    // ==========================================
     if (usuarioLogado && usuarioLogado.perfil === "barbeiro") {
-        lista = lista.filter(ag => ag.barbeiro.toLowerCase().includes(usuarioLogado.nome.toLowerCase()));
+        const nomeBarbeiro = (usuarioLogado.nome || "").toLowerCase();
+        lista = lista.filter(ag => (ag.barbeiro || "").toLowerCase().includes(nomeBarbeiro));
     } else if (usuarioLogado && usuarioLogado.perfil === "cliente") {
-        lista = lista.filter(ag => ag.cliente.toLowerCase().includes(usuarioLogado.nome.toLowerCase()));
+        const nomeCli = (usuarioLogado.nome || "").toLowerCase();
+        const emailCli = (usuarioLogado.email || "").toLowerCase();
+        lista = lista.filter(ag => {
+            const agCli = (ag.cliente || "").toLowerCase();
+            return agCli.includes(nomeCli) || (emailCli && agCli.includes(emailCli.split("@")[0]));
+        });
     }
 
-    // Filtro por busca
+    // Filtro por texto de busca
     if (busca) {
         lista = lista.filter(ag =>
-            ag.cliente.toLowerCase().includes(busca) ||
-            ag.servico.toLowerCase().includes(busca) ||
-            ag.barbeiro.toLowerCase().includes(busca)
+            (ag.cliente || "").toLowerCase().includes(busca) ||
+            (ag.servico || "").toLowerCase().includes(busca) ||
+            (ag.barbeiro || "").toLowerCase().includes(busca)
         );
     }
 
@@ -313,7 +375,14 @@ function mostrarAgendamentos() {
     }
 
     if (lista.length === 0) {
-        if (msgVazia) msgVazia.style.display = "block";
+        if (msgVazia) {
+            msgVazia.style.display = "block";
+            if (usuarioLogado && usuarioLogado.perfil === "cliente") {
+                msgVazia.textContent = "Você não possui agendamentos no momento. Clique em '+ Agendar Horário' para marcar seu corte!";
+            } else {
+                msgVazia.textContent = "Nenhum agendamento encontrado no período.";
+            }
+        }
         return;
     } else {
         if (msgVazia) msgVazia.style.display = "none";
@@ -327,18 +396,31 @@ function mostrarAgendamentos() {
         else if (ag.status === "Confirmado") badgeClasse = "badge_confirmado";
         else if (ag.status === "Cancelado") badgeClasse = "badge_cancelado";
 
-        // Botões de Ação
+        // Botões de Ação adaptados por perfil
         let botoesAcao = "";
-        const podeDarBaixa = (usuarioLogado.perfil === "admin" || usuarioLogado.perfil === "barbeiro");
 
-        if (ag.status !== "Pago" && ag.status !== "Cancelado" && podeDarBaixa) {
-            botoesAcao += `<button class="btn_tabela btn_pagar" onclick="abrirModalCheckout(${ag.id})" title="Efetuar Pagamento do Atendimento">Efetuar Pagamento / Checkout</button>`;
-        } else if (ag.status === "Pago") {
-            botoesAcao += `<span class="status_confirmado" style="font-weight: 700; font-size: 0.82rem;">✓ Pago (${ag.formaPagamento || "Liquidado"})</span>`;
-        }
+        if (usuarioLogado.perfil === "cliente") {
+            // Cliente pode apenas cancelar caso ainda não esteja pago
+            if (ag.status !== "Pago" && ag.status !== "Cancelado") {
+                botoesAcao = `<button class="btn_tabela btn_excluir" onclick="cancelarAgendamentoCliente(${ag.id})" title="Cancelar meu agendamento">Cancelar</button>`;
+            } else if (ag.status === "Pago") {
+                botoesAcao = `<span class="status_confirmado" style="font-weight: 700; font-size: 0.82rem;">✓ Pago</span>`;
+            } else {
+                botoesAcao = `<span class="status_cancelado" style="font-size: 0.82rem;">Cancelado</span>`;
+            }
+        } else {
+            // Barbeiro e Administrador operam o checkout e baixa de caixa
+            const podeDarBaixa = (usuarioLogado.perfil === "admin" || usuarioLogado.perfil === "barbeiro");
 
-        if (usuarioLogado.perfil === "admin") {
-            botoesAcao += ` <button class="btn_tabela btn_excluir" onclick="removerAgendamento(${ag.id})" title="Excluir">Excluir</button>`;
+            if (ag.status !== "Pago" && ag.status !== "Cancelado" && podeDarBaixa) {
+                botoesAcao += `<button class="btn_tabela btn_pagar" onclick="abrirModalCheckout(${ag.id})" title="Efetuar Pagamento do Atendimento">Efetuar Pagamento / Checkout</button>`;
+            } else if (ag.status === "Pago") {
+                botoesAcao += `<span class="status_confirmado" style="font-weight: 700; font-size: 0.82rem;">✓ Pago (${ag.formaPagamento || "Liquidado"})</span>`;
+            }
+
+            if (usuarioLogado.perfil === "admin") {
+                botoesAcao += ` <button class="btn_tabela btn_excluir" onclick="removerAgendamento(${ag.id})" title="Excluir">Excluir</button>`;
+            }
         }
 
         tr.innerHTML = `
@@ -359,6 +441,9 @@ function mostrarAgendamentos() {
 
 // 6. Modal de Checkout & Liquidação Financeira (RF-009)
 function abrirModalCheckout(id) {
+    // Clientes nunca realizam checkout
+    if (usuarioLogado && usuarioLogado.perfil === "cliente") return;
+
     const lista = obterAgendamentos();
     const agendamento = lista.find(item => item.id === id);
     if (!agendamento) return;
@@ -371,14 +456,14 @@ function abrirModalCheckout(id) {
     document.getElementById("checkoutServico").textContent = agendamento.servico;
     document.getElementById("checkoutValorTotal").textContent = formatarMoeda(agendamento.preco);
 
-    // Split 70/30
+    // Divisão 70% Barbeiro e 30% Salão
     const valor = parseFloat(agendamento.preco) || 0;
     const splitBarbeiro = valor * 0.70;
     const splitSalao = valor * 0.30;
     document.getElementById("checkoutSplitBarbeiro").textContent = formatarMoeda(splitBarbeiro);
     document.getElementById("checkoutSplitSalao").textContent = formatarMoeda(splitSalao);
 
-    // Reseta meio de pagamento e troco
+    // Reseta campos do checkout
     document.getElementById("checkoutFormaPagamento").value = agendamento.formaPagamento || "Pix";
     if (document.getElementById("checkoutValorEntregue")) {
         document.getElementById("checkoutValorEntregue").value = "";
@@ -435,7 +520,7 @@ function confirmarLiquidacaoPagamento() {
     const forma = document.getElementById("checkoutFormaPagamento").value;
     const preco = parseFloat(agendamentoEmCheckout.preco) || 0;
 
-    // Se dinheiro, valida valor entregue
+    // Se em dinheiro, valida valor entregue
     if (forma === "Dinheiro") {
         const entregue = parseFloat(document.getElementById("checkoutValorEntregue").value) || 0;
         if (entregue < preco) {
@@ -475,12 +560,39 @@ function ocultarErroCheckout() {
 // 7. Ações de Formulário de Agendamento
 function abrirFormularioNovo() {
     document.getElementById("caixaFormulario").style.display = "block";
-    document.getElementById("tituloFormulario").textContent = "Novo Agendamento";
+    document.getElementById("tituloFormulario").textContent = (usuarioLogado && usuarioLogado.perfil === "cliente") ? "Agendar Meu Horário" : "Novo Agendamento";
     limparFormulario();
 
     const hoje = new Date().toISOString().split("T")[0];
     const campoData = document.getElementById("campoData");
     if (campoData) campoData.value = hoje;
+
+    const campoCliente = document.getElementById("campoCliente");
+    const labelStatus = document.getElementById("labelStatus");
+    const campoStatus = document.getElementById("campoStatus");
+
+    // Adaptação para o Cliente
+    if (usuarioLogado && usuarioLogado.perfil === "cliente") {
+        if (campoCliente) {
+            campoCliente.value = usuarioLogado.nome;
+            campoCliente.readOnly = true;
+        }
+        if (labelStatus) labelStatus.style.display = "none";
+        if (campoStatus) {
+            campoStatus.value = "Confirmado";
+            campoStatus.style.display = "none";
+        }
+    } else {
+        if (campoCliente) {
+            campoCliente.value = "";
+            campoCliente.readOnly = false;
+        }
+        if (labelStatus) labelStatus.style.display = "block";
+        if (campoStatus) {
+            campoStatus.value = "Confirmado";
+            campoStatus.style.display = "block";
+        }
+    }
 
     atualizarPrecoServicoSelecionado();
     atualizarTabelaHorarios();
@@ -492,8 +604,12 @@ function fecharFormulario() {
 }
 
 function limparFormulario() {
-    document.getElementById("campoCliente").value = "";
-    document.getElementById("mensagemErro").style.display = "none";
+    const campoCliente = document.getElementById("campoCliente");
+    if (campoCliente && (!usuarioLogado || usuarioLogado.perfil !== "cliente")) {
+        campoCliente.value = "";
+    }
+    const msgErro = document.getElementById("mensagemErro");
+    if (msgErro) msgErro.style.display = "none";
 }
 
 function popularSelectsFormulario() {
@@ -602,7 +718,13 @@ function destacarHorarioSelecionado() {
 }
 
 function salvarAgendamento() {
-    const cliente = document.getElementById("campoCliente").value.trim();
+    let cliente = "";
+    if (usuarioLogado && usuarioLogado.perfil === "cliente") {
+        cliente = usuarioLogado.nome;
+    } else {
+        cliente = document.getElementById("campoCliente").value.trim();
+    }
+
     const servicoSelect = document.getElementById("campoServico");
     const servico = servicoSelect.value;
     const preco = parseFloat(servicoSelect.options[servicoSelect.selectedIndex].dataset.preco) || 45.00;
@@ -610,7 +732,12 @@ function salvarAgendamento() {
     const data = document.getElementById("campoData").value;
     const hora = document.getElementById("campoHora").value;
     const formaPagamento = document.getElementById("campoPagamento").value;
-    const status = document.getElementById("campoStatus").value;
+    
+    // Status padrão
+    let status = "Confirmado";
+    if (usuarioLogado && usuarioLogado.perfil !== "cliente") {
+        status = document.getElementById("campoStatus").value;
+    }
 
     const elErro = document.getElementById("mensagemErro");
 
@@ -625,14 +752,14 @@ function salvarAgendamento() {
         return;
     }
 
-    // Verifica se horário já está ocupado
+    // Verifica colisão de horário para o mesmo barbeiro
     const agendamentos = obterAgendamentos();
     const conflito = agendamentos.some(ag =>
         ag.data === data && ag.barbeiro === barbeiro && ag.hora === hora && ag.status !== "Cancelado"
     );
 
     if (conflito) {
-        elErro.textContent = `O horário ${hora} para o barbeiro ${barbeiro} já está ocupado nesta data.`;
+        elErro.textContent = `O horário ${hora} para o profissional ${barbeiro} já está ocupado nesta data.`;
         elErro.style.display = "block";
         return;
     }
@@ -655,14 +782,25 @@ function salvarAgendamento() {
     fecharFormulario();
 }
 
+function cancelarAgendamentoCliente(id) {
+    let lista = obterAgendamentos();
+    const index = lista.findIndex(ag => ag.id === id);
+    if (index !== -1) {
+        lista[index].status = "Cancelado";
+        salvarListaAgendamentos(lista);
+    }
+}
+
 function removerAgendamento(id) {
     let lista = obterAgendamentos();
     lista = lista.filter(ag => ag.id !== id);
     salvarListaAgendamentos(lista);
 }
 
-// 8. Gestão de Barbeiros (Aba Admin)
+// 8. Gestão de Barbeiros (Exclusivo Administrador)
 function alternarAbaMenu(aba) {
+    if (usuarioLogado && usuarioLogado.perfil !== "admin") return;
+
     const abaAgendamentos = document.getElementById("abaAgendamentos");
     const abaBarbeiros = document.getElementById("abaGestaoBarbeiros");
     const linkAg = document.getElementById("linkAgendamentos");
