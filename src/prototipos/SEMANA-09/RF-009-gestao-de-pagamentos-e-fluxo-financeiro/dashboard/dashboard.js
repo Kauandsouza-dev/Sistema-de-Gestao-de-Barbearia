@@ -2,12 +2,25 @@
  * BarberFlow - Dashboard & Gestão de Pagamentos (SEMANA-09 / RF-009)
  * Regra de Repasse 70% / 30% (Lei do Salão-Parceiro)
  * Conciliação Financeira: Receita Prevista vs. Receita Efetivada
+ * Sincronização em tempo real de Barbeiros (Supabase + Local)
  * RBAC Rigoroso:
  *   - Administrador: Faturamento Geral (100%), Cota Salão (30%), Repasses (70%), Gestão Completa.
  *   - Barbeiro: Apenas sua comissão individual (70%), seus atendimentos e checkout.
  *   - Cliente: Apenas seus agendamentos e histórico (Métricas de receita totalmente ocultas).
  * Protocolo v14.3 (Zero alert(), interface acessível)
  */
+
+const SUPABASE_URL = "https://qqxntkifbvzcneaqbhae.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_FjIQ8xTPK0Y7TrMxlknn-A_48rvJyeD";
+
+let supabaseClient = null;
+try {
+    if (window.supabase && typeof window.supabase.createClient === 'function') {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+} catch (e) {
+    console.warn("Supabase não carregado no dashboard:", e);
+}
 
 let usuarioLogado = null;
 let agendamentoEmCheckout = null;
@@ -21,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     mostrarAgendamentos();
     atualizarMetricasFinanceiras();
     atualizarTabelaRepasseBarbeiros();
+    buscarBarbeirosDoBanco();
 });
 
 // 1. Verificação de Sessão & RBAC
@@ -79,7 +93,7 @@ function configurarPerfilRBAC() {
     if (usuarioLogado.perfil === "barbeiro") {
         if (painelMetricas) painelMetricas.style.display = "flex";
         if (linkBarbeiros) linkBarbeiros.style.display = "none";
-        if (cardDivisao) cardDivisao.style.display = "none"; // Cota do salão oculta para o barbeiro
+        if (cardDivisao) cardDivisao.style.display = "none";
         if (rotuloEfetivado) rotuloEfetivado.textContent = "Minha Comissão Recebida (70%)";
         if (subtextoEfetivado) subtextoEfetivado.textContent = "Total dos seus serviços pagos";
         if (rotuloPrevisto) rotuloPrevisto.textContent = "Minha Previsão a Receber (70%)";
@@ -122,14 +136,37 @@ function carregarDadosSistema() {
         localStorage.setItem("servicos", JSON.stringify(servicosPadrao));
     }
 
-    if (!localStorage.getItem("barbeiros")) {
-        const barbeirosPadrao = [
-            { id: 1, nome: "Gabriel Barbeiro", email: "barbeiro@barberflow.com", especialidade: "Degradê e Barba", status: "Ativo" },
-            { id: 2, nome: "Cauê Barber", email: "caue@barberflow.com", especialidade: "Corte Clássico e Navalha", status: "Ativo" },
-            { id: 3, nome: "Braynt Stylist", email: "braynt@barberflow.com", especialidade: "Platinado e Barba Terapia", status: "Ativo" }
-        ];
-        localStorage.setItem("barbeiros", JSON.stringify(barbeirosPadrao));
+    let barbeirosExistentes = [];
+    try {
+        barbeirosExistentes = JSON.parse(localStorage.getItem("barbeiros")) || [];
+    } catch (e) {
+        barbeirosExistentes = [];
     }
+
+    // Barbeiros padrão oficiais, incluindo Testezada (teste@email.com)
+    const barbeirosPadrao = [
+        { id: 6, nome: "Testezada", email: "teste@email.com", especialidade: "Corte Degradê e Navalha", status: "Ativo" },
+        { id: 1, nome: "Gabriel Barbeiro", email: "barbeiro@barberflow.com", especialidade: "Degradê e Barba", status: "Ativo" },
+        { id: 2, nome: "Cauê Barber", email: "caue@barberflow.com", especialidade: "Corte Clássico e Navalha", status: "Ativo" },
+        { id: 3, nome: "Braynt Stylist", email: "braynt@barberflow.com", especialidade: "Platinado e Barba Terapia", status: "Ativo" }
+    ];
+
+    // Garante que todos os barbeiros padrão estejam registrados
+    barbeirosPadrao.forEach(bp => {
+        const idx = barbeirosExistentes.findIndex(b =>
+            (b.email && b.email.toLowerCase() === bp.email.toLowerCase()) ||
+            b.nome.toLowerCase() === bp.nome.toLowerCase()
+        );
+        if (idx === -1) {
+            barbeirosExistentes.push(bp);
+        } else {
+            // Atualiza para garantir status ativo e email correto
+            barbeirosExistentes[idx].email = bp.email;
+            barbeirosExistentes[idx].status = "Ativo";
+        }
+    });
+
+    localStorage.setItem("barbeiros", JSON.stringify(barbeirosExistentes));
 
     if (!localStorage.getItem("agendamentos")) {
         const hoje = new Date().toISOString().split("T")[0];
@@ -151,7 +188,7 @@ function carregarDadosSistema() {
                 cliente: "Lucas Pereira",
                 servico: "Combo Corte + Barba",
                 preco: 70.00,
-                barbeiro: "Gabriel Barbeiro",
+                barbeiro: "Testezada",
                 data: hoje,
                 hora: "10:30",
                 formaPagamento: "Cartão de Crédito",
@@ -187,6 +224,50 @@ function carregarDadosSistema() {
     }
 }
 
+// Sincroniza barbeiros cadastrados no banco Supabase
+async function buscarBarbeirosDoBanco() {
+    if (!supabaseClient) return;
+    try {
+        const { data, error } = await supabaseClient
+            .from("usuarios")
+            .select("id, nome, email, perfil");
+
+        if (!error && Array.isArray(data)) {
+            let barbeirosLocais = obterBarbeiros();
+            let alterou = false;
+
+            data.forEach(u => {
+                if (u.perfil === "barbeiro") {
+                    const nome = u.nome ? u.nome.trim() : (u.email ? u.email.split("@")[0] : "Barbeiro");
+                    const email = (u.email || "").toLowerCase();
+                    const existe = barbeirosLocais.find(b =>
+                        (b.email && b.email.toLowerCase() === email) ||
+                        b.nome.toLowerCase() === nome.toLowerCase()
+                    );
+                    if (!existe) {
+                        barbeirosLocais.push({
+                            id: u.id,
+                            nome: nome,
+                            email: email,
+                            especialidade: "Corte e Barba",
+                            status: "Ativo"
+                        });
+                        alterou = true;
+                    }
+                }
+            });
+
+            if (alterou) {
+                localStorage.setItem("barbeiros", JSON.stringify(barbeirosLocais));
+                popularSelectsFormulario();
+                atualizarTabelaRepasseBarbeiros();
+            }
+        }
+    } catch (e) {
+        console.warn("Erro ao sincronizar barbeiros do banco:", e);
+    }
+}
+
 function obterAgendamentos() {
     try {
         return JSON.parse(localStorage.getItem("agendamentos")) || [];
@@ -211,16 +292,42 @@ function obterServicos() {
 }
 
 function obterBarbeiros() {
+    let barbeiros = [];
     try {
-        return JSON.parse(localStorage.getItem("barbeiros")) || [];
+        barbeiros = JSON.parse(localStorage.getItem("barbeiros")) || [];
     } catch (e) {
-        return [];
+        barbeiros = [];
     }
+
+    // Mescla usuários cadastrados como barbeiros no localStorage
+    let usuariosLocais = [];
+    try {
+        usuariosLocais = JSON.parse(localStorage.getItem("usuariosBarberFlow")) || [];
+    } catch (e) {
+        usuariosLocais = [];
+    }
+
+    usuariosLocais.forEach(u => {
+        if (u.perfil === "barbeiro") {
+            const email = (u.email || "").toLowerCase();
+            const nome = u.nome || email.split("@")[0];
+            if (!barbeiros.some(b => (b.email && b.email.toLowerCase() === email) || b.nome.toLowerCase() === nome.toLowerCase())) {
+                barbeiros.push({
+                    id: u.id,
+                    nome: nome,
+                    email: email,
+                    especialidade: u.especialidade || "Corte e Barba",
+                    status: "Ativo"
+                });
+            }
+        }
+    });
+
+    return barbeiros;
 }
 
 // 3. Métricas Financeiras (Previsão vs. Efetivado & Regra 70/30)
 function atualizarMetricasFinanceiras() {
-    // Cliente não processa e não visualiza métricas de faturamento
     if (!usuarioLogado || usuarioLogado.perfil === "cliente") {
         return;
     }
@@ -234,12 +341,14 @@ function atualizarMetricasFinanceiras() {
 
     const isBarbeiro = (usuarioLogado.perfil === "barbeiro");
     const nomeBarbeiroLogado = isBarbeiro ? (usuarioLogado.nome || "").toLowerCase() : "";
+    const emailBarbeiroLogado = isBarbeiro ? (usuarioLogado.email || "").toLowerCase() : "";
 
     lista.forEach(ag => {
-        // Se for Barbeiro, filtra estritamente seus próprios atendimentos
         if (isBarbeiro) {
             const agBarb = (ag.barbeiro || "").toLowerCase();
-            if (!agBarb.includes(nomeBarbeiroLogado)) {
+            const matchNome = nomeBarbeiroLogado && agBarb.includes(nomeBarbeiroLogado);
+            const matchEmail = emailBarbeiroLogado && agBarb.includes(emailBarbeiroLogado.split("@")[0]);
+            if (!matchNome && !matchEmail) {
                 return;
             }
         }
@@ -294,7 +403,6 @@ function atualizarTabelaRepasseBarbeiros() {
     const corpo = document.getElementById("corpoTabelaBarbeiros");
     if (!corpo) return;
 
-    // Cliente nunca visualiza a tabela de fechamento de caixa
     if (!usuarioLogado || usuarioLogado.perfil === "cliente") {
         corpo.innerHTML = "";
         return;
@@ -306,15 +414,23 @@ function atualizarTabelaRepasseBarbeiros() {
 
     const isBarbeiro = (usuarioLogado.perfil === "barbeiro");
     const nomeBarbeiroLogado = isBarbeiro ? (usuarioLogado.nome || "").toLowerCase() : "";
+    const emailBarbeiroLogado = isBarbeiro ? (usuarioLogado.email || "").toLowerCase() : "";
 
     barbeiros.forEach(b => {
-        if (isBarbeiro && !b.nome.toLowerCase().includes(nomeBarbeiroLogado)) {
-            return;
+        if (isBarbeiro) {
+            const bNome = (b.nome || "").toLowerCase();
+            const bEmail = (b.email || "").toLowerCase();
+            const matchNome = nomeBarbeiroLogado && bNome.includes(nomeBarbeiroLogado);
+            const matchEmail = emailBarbeiroLogado && bEmail === emailBarbeiroLogado;
+            if (!matchNome && !matchEmail) {
+                return;
+            }
         }
 
-        const pagosDoBarbeiro = agendamentos.filter(ag =>
-            ag.barbeiro.toLowerCase().includes(b.nome.toLowerCase()) && ag.status === "Pago"
-        );
+        const pagosDoBarbeiro = agendamentos.filter(ag => {
+            const agB = (ag.barbeiro || "").toLowerCase();
+            return agB.includes(b.nome.toLowerCase()) && ag.status === "Pago";
+        });
 
         const qtdCortes = pagosDoBarbeiro.length;
         const totalFaturado = pagosDoBarbeiro.reduce((acc, curr) => acc + (parseFloat(curr.preco) || 0), 0);
@@ -323,7 +439,7 @@ function atualizarTabelaRepasseBarbeiros() {
 
         const tr = document.createElement("tr");
         tr.innerHTML = `
-            <td data-label="Profissional"><strong>${b.nome}</strong></td>
+            <td data-label="Profissional"><strong>${b.nome}</strong> ${b.email ? `<small style="color:#64748b; display:block;">${b.email}</small>` : ''}</td>
             <td data-label="Serviços Pagos">${qtdCortes} atendimento(s)</td>
             <td data-label="Faturamento Realizado">${formatarMoeda(totalFaturado)}</td>
             <td data-label="Comissão Barbeiro (70%)"><strong class="status_confirmado">${formatarMoeda(comissao70)}</strong></td>
@@ -345,12 +461,13 @@ function mostrarAgendamentos() {
 
     let lista = obterAgendamentos();
 
-    // ==========================================
-    // Filtro RBAC Estrito por Perfil de Acesso
-    // ==========================================
     if (usuarioLogado && usuarioLogado.perfil === "barbeiro") {
         const nomeBarbeiro = (usuarioLogado.nome || "").toLowerCase();
-        lista = lista.filter(ag => (ag.barbeiro || "").toLowerCase().includes(nomeBarbeiro));
+        const emailBarbeiro = (usuarioLogado.email || "").toLowerCase();
+        lista = lista.filter(ag => {
+            const agB = (ag.barbeiro || "").toLowerCase();
+            return agB.includes(nomeBarbeiro) || (emailBarbeiro && agB.includes(emailBarbeiro.split("@")[0]));
+        });
     } else if (usuarioLogado && usuarioLogado.perfil === "cliente") {
         const nomeCli = (usuarioLogado.nome || "").toLowerCase();
         const emailCli = (usuarioLogado.email || "").toLowerCase();
@@ -360,7 +477,6 @@ function mostrarAgendamentos() {
         });
     }
 
-    // Filtro por texto de busca
     if (busca) {
         lista = lista.filter(ag =>
             (ag.cliente || "").toLowerCase().includes(busca) ||
@@ -369,7 +485,6 @@ function mostrarAgendamentos() {
         );
     }
 
-    // Filtro por status
     if (filtroStatus !== "todos") {
         lista = lista.filter(ag => ag.status === filtroStatus);
     }
@@ -396,11 +511,9 @@ function mostrarAgendamentos() {
         else if (ag.status === "Confirmado") badgeClasse = "badge_confirmado";
         else if (ag.status === "Cancelado") badgeClasse = "badge_cancelado";
 
-        // Botões de Ação adaptados por perfil
         let botoesAcao = "";
 
         if (usuarioLogado.perfil === "cliente") {
-            // Cliente pode apenas cancelar caso ainda não esteja pago
             if (ag.status !== "Pago" && ag.status !== "Cancelado") {
                 botoesAcao = `<button class="btn_tabela btn_excluir" onclick="cancelarAgendamentoCliente(${ag.id})" title="Cancelar meu agendamento">Cancelar</button>`;
             } else if (ag.status === "Pago") {
@@ -409,7 +522,6 @@ function mostrarAgendamentos() {
                 botoesAcao = `<span class="status_cancelado" style="font-size: 0.82rem;">Cancelado</span>`;
             }
         } else {
-            // Barbeiro e Administrador operam o checkout e baixa de caixa
             const podeDarBaixa = (usuarioLogado.perfil === "admin" || usuarioLogado.perfil === "barbeiro");
 
             if (ag.status !== "Pago" && ag.status !== "Cancelado" && podeDarBaixa) {
@@ -441,7 +553,6 @@ function mostrarAgendamentos() {
 
 // 6. Modal de Checkout & Liquidação Financeira (RF-009)
 function abrirModalCheckout(id) {
-    // Clientes nunca realizam checkout
     if (usuarioLogado && usuarioLogado.perfil === "cliente") return;
 
     const lista = obterAgendamentos();
@@ -456,14 +567,12 @@ function abrirModalCheckout(id) {
     document.getElementById("checkoutServico").textContent = agendamento.servico;
     document.getElementById("checkoutValorTotal").textContent = formatarMoeda(agendamento.preco);
 
-    // Divisão 70% Barbeiro e 30% Salão
     const valor = parseFloat(agendamento.preco) || 0;
     const splitBarbeiro = valor * 0.70;
     const splitSalao = valor * 0.30;
     document.getElementById("checkoutSplitBarbeiro").textContent = formatarMoeda(splitBarbeiro);
     document.getElementById("checkoutSplitSalao").textContent = formatarMoeda(splitSalao);
 
-    // Reseta campos do checkout
     document.getElementById("checkoutFormaPagamento").value = agendamento.formaPagamento || "Pix";
     if (document.getElementById("checkoutValorEntregue")) {
         document.getElementById("checkoutValorEntregue").value = "";
@@ -520,7 +629,6 @@ function confirmarLiquidacaoPagamento() {
     const forma = document.getElementById("checkoutFormaPagamento").value;
     const preco = parseFloat(agendamentoEmCheckout.preco) || 0;
 
-    // Se em dinheiro, valida valor entregue
     if (forma === "Dinheiro") {
         const entregue = parseFloat(document.getElementById("checkoutValorEntregue").value) || 0;
         if (entregue < preco) {
@@ -571,7 +679,6 @@ function abrirFormularioNovo() {
     const labelStatus = document.getElementById("labelStatus");
     const campoStatus = document.getElementById("campoStatus");
 
-    // Adaptação para o Cliente
     if (usuarioLogado && usuarioLogado.perfil === "cliente") {
         if (campoCliente) {
             campoCliente.value = usuarioLogado.nome;
@@ -594,6 +701,7 @@ function abrirFormularioNovo() {
         }
     }
 
+    popularSelectsFormulario();
     atualizarPrecoServicoSelecionado();
     atualizarTabelaHorarios();
 }
@@ -635,7 +743,7 @@ function popularSelectsFormulario() {
         barbeiros.forEach(b => {
             const opt = document.createElement("option");
             opt.value = b.nome;
-            opt.textContent = b.nome;
+            opt.textContent = b.email ? `${b.nome} (${b.email})` : b.nome;
             selectBarbeiros.appendChild(opt);
         });
     }
@@ -733,7 +841,6 @@ function salvarAgendamento() {
     const hora = document.getElementById("campoHora").value;
     const formaPagamento = document.getElementById("campoPagamento").value;
     
-    // Status padrão
     let status = "Confirmado";
     if (usuarioLogado && usuarioLogado.perfil !== "cliente") {
         status = document.getElementById("campoStatus").value;
@@ -752,7 +859,6 @@ function salvarAgendamento() {
         return;
     }
 
-    // Verifica colisão de horário para o mesmo barbeiro
     const agendamentos = obterAgendamentos();
     const conflito = agendamentos.some(ag =>
         ag.data === data && ag.barbeiro === barbeiro && ag.hora === hora && ag.status !== "Cancelado"

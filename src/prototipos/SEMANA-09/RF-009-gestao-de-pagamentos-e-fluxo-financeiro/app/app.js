@@ -257,10 +257,10 @@ async function fazerLogin() {
             senhasValidas: ["123456", "admin", "admin123"]
         },
         {
-            emails: ["barbeiro@barberflow.com", "barbeiro@teste.com", "gabriel@barberflow.com"],
-            nome: "Gabriel Barbeiro",
+            emails: ["barbeiro@barberflow.com", "barbeiro@teste.com", "gabriel@barberflow.com", "teste@email.com"],
+            nome: "Testezada",
             perfil: "barbeiro",
-            senhasValidas: ["123456", "barba", "barbeiro"]
+            senhasValidas: ["123456", "barba", "barbeiro", "teste"]
         },
         {
             emails: ["cliente@barberflow.com", "cliente@teste.com", "kauan@barberflow.com"],
