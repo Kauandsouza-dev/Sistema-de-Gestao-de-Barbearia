@@ -1,4 +1,4 @@
-/**
+﻿/**
  * BarberFlow - Dashboard & Gestão de Pagamentos (SEMANA-09 / RF-009)
  * Regra de Repasse 70% / 30% (Lei do Salão-Parceiro)
  * Conciliação Financeira: Receita Prevista vs. Receita Efetivada
@@ -332,7 +332,9 @@ function mostrarAgendamentos() {
         const podeDarBaixa = (usuarioLogado.perfil === "admin" || usuarioLogado.perfil === "barbeiro");
 
         if (ag.status !== "Pago" && ag.status !== "Cancelado" && podeDarBaixa) {
-            botoesAcao += `<button class="btn_tabela btn_pagar" onclick="abrirModalCheckout(${ag.id})" title="Registrar pagamento e dar baixa">Pagar / Checkout</button>`;
+            botoesAcao += `<button class="btn_tabela btn_pagar" onclick="abrirModalCheckout(${ag.id})" title="Efetuar Pagamento do Atendimento">Efetuar Pagamento / Checkout</button>`;
+        } else if (ag.status === "Pago") {
+            botoesAcao += `<span class="status_confirmado" style="font-weight: 700; font-size: 0.82rem;">✓ Pago (${ag.formaPagamento || "Liquidado"})</span>`;
         }
 
         if (usuarioLogado.perfil === "admin") {
@@ -437,7 +439,7 @@ function confirmarLiquidacaoPagamento() {
     if (forma === "Dinheiro") {
         const entregue = parseFloat(document.getElementById("checkoutValorEntregue").value) || 0;
         if (entregue < preco) {
-            exibirErroCheckout("O valor entregue em dinheiro é menor que o valor do serviço.");
+            exibirErroCheckout("O valor entregue em dinheiro é menor que o valor total do serviço.");
             return;
         }
     }
