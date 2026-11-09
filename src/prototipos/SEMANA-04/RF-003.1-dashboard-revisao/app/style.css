@@ -30,7 +30,11 @@ p {
 .conteudo_pagina {
     min-height: 100vh;
     width: 100%;
+<<<<<<<< HEAD:src/prototipos/SEMANA-04/RF-003.1-dashboard-revisao/app/style.css
     background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("../assets/barbearia.jpg");
+========
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("../assets/barbearia.webp");
+>>>>>>>> origin/feature/dashboard-barbeiro-gabriel:src/prototipos/SEMANA-04/RF-004-dashboard-revisao/app/style.css
     background-size: cover;
     background-position: center;
     display: flex;

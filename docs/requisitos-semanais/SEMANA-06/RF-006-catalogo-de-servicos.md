@@ -28,14 +28,16 @@ barberflow/
 │       │   └── RF-002-confirmacao-login.md
 │       ├── SEMANA-03/
 │       │   └── RF-003-dashboard-agenda.md
+│       ├── SEMANA-04/
+│       │   └── RF-006-revisao-projeto.md
 │       └── SEMANA-06/
-│           └── RF-04-catalogo-de-servicos.md   <-- (ESTE ARQUIVO DE ESPECIFICAÇÃO)
+│           └── RF-006-catalogo-de-servicos.md   <-- (ESTE ARQUIVO DE ESPECIFICAÇÃO)
 └── src/
     └── prototipos/
         └── SEMANA-06/
-            └── RF-004-catalogo-de-servicos/
+            └── RF-006-catalogo-de-servicos/
                 ├── app/
-                │   ├── RF-004-catalogo-de-servicos.html               <-- (Portal de Acesso e Autenticação)
+                │   ├── RF-006-catalogo-de-servicos.html               <-- (Portal de Acesso e Autenticação)
                 │   ├── style.css                <-- (Estilos visuais do portal)
                 │   └── app.js                   <-- (Lógica de autenticação e navegação)
                 ├── dashboard/
@@ -51,8 +53,8 @@ barberflow/
                     └── icone_barbearia.webp     <-- (Ícone da marca BarberFlow em WebP)
 ```
 
-* **Localização deste arquivo:** `docs/requisitos-semanais/SEMANA-06/RF-04-catalogo-de-servicos.md`
-* **Localização dos Protótipos:** `src/prototipos/SEMANA-06/RF-004-catalogo-de-servicos/`
+* **Localização deste arquivo:** `docs/requisitos-semanais/SEMANA-06/RF-006-catalogo-de-servicos.md`
+* **Localização dos Protótipos:** `src/prototipos/SEMANA-06/RF-006-catalogo-de-servicos/`
 
 ---
 
@@ -60,7 +62,7 @@ barberflow/
 
 | Atributo | Detalhe |
 |---|---|
-| **ID do Requisito** | **RF-04** |
+| **ID do Requisito** | **RF-006** |
 | **Título do Requisito** | Catálogo e Gestão de Serviços da Barbearia (CRUD Completo, Busca Dinâmica, Alternância de Status e Persistência Local) |
 | **Tipo de Requisito** | Requisito Funcional (RF) |
 | **Prioridade de Negócio** | **ALTA** (Base operacional para agendamentos e precificação da barbearia) |
@@ -105,7 +107,7 @@ Construir uma interface simples, rápida e acessível para o gerenciamento dos s
 
 ## 3️⃣ TÓPICO 3: ESPECIFICAÇÃO DE CASOS DE USO E REGRAS
 
-### 📌 UC-004.1: Carregamento Inicial da Tela e Carga de Demonstração (READ)
+### 📌 UC-006.1: Carregamento Inicial da Tela e Carga de Demonstração (READ)
 * **Ator Principal:** Barbeiro / Administrador.
 * **Pré-condições:** Navegador aberto no arquivo `dashboard/servicos/servicos.html`.
 * **Gatilho:** Abertura ou atualização da página (`iniciar()`).
@@ -121,7 +123,7 @@ Construir uma interface simples, rápida e acessível para o gerenciamento dos s
 
 ---
 
-### 📌 UC-004.2: Busca e Filtragem Dinâmica por Nome ou Descrição (SEARCH)
+### 📌 UC-006.2: Busca e Filtragem Dinâmica por Nome ou Descrição (SEARCH)
 * **Ator Principal:** Barbeiro / Administrador.
 * **Pré-condições:** Tabela de serviços renderizada na tela.
 * **Gatilho:** Digitação de qualquer caractere no campo `#busca` (`onkeyup`).
@@ -138,7 +140,7 @@ Construir uma interface simples, rápida e acessível para o gerenciamento dos s
 
 ---
 
-### 📌 UC-004.3: Cadastro de Novo Serviço (CREATE)
+### 📌 UC-006.3: Cadastro de Novo Serviço (CREATE)
 * **Ator Principal:** Administrador.
 * **Pré-condições:** Tela do catálogo aberta.
 * **Gatilho:** Clique no botão `+ Novo Serviço`.
@@ -161,7 +163,7 @@ Construir uma interface simples, rápida e acessível para o gerenciamento dos s
 
 ---
 
-### 📌 UC-004.4: Edição de Serviço Existente (UPDATE)
+### 📌 UC-006.4: Edição de Serviço Existente (UPDATE)
 * **Ator Principal:** Administrador.
 * **Pré-condições:** Serviço listado na tabela.
 * **Gatilho:** Clique no botão `Editar` na linha do serviço.
@@ -177,7 +179,7 @@ Construir uma interface simples, rápida e acessível para o gerenciamento dos s
 
 ---
 
-### 📌 UC-004.5: Alternância Rápida de Status [Ativo / Inativo] (TOGGLE)
+### 📌 UC-006.5: Alternância Rápida de Status [Ativo / Inativo] (TOGGLE)
 * **Ator Principal:** Administrador.
 * **Pré-condições:** Serviço listado na tabela.
 * **Gatilho:** Clique no botão `Ativar` ou `Desativar` da linha.
@@ -191,7 +193,7 @@ Construir uma interface simples, rápida e acessível para o gerenciamento dos s
 
 ---
 
-### 📌 UC-004.6: Exclusão de Serviço com Confirmação (DELETE)
+### 📌 UC-006.6: Exclusão de Serviço com Confirmação (DELETE)
 * **Ator Principal:** Administrador.
 * **Pré-condições:** Serviço cadastrado e visível na tabela.
 * **Gatilho:** Clique no botão `Excluir`.
@@ -418,16 +420,16 @@ Para assegurar a coerência entre a visão de produto e o planejamento técnico,
 
 ### ✅ Checklist de Verificação de Conformidade Documental (Protocolo v14.3)
 
-* ✅ **Estrutura de Diretórios 100% Conforme:** Pastas rigorosamente organizadas sob `docs/requisitos-semanais/SEMANA-06/` e `src/prototipos/SEMANA-06/RF-004-catalogo-de-servicos/`.
+* ✅ **Estrutura de Diretórios 100% Conforme:** Pastas rigorosamente organizadas sob `docs/requisitos-semanais/SEMANA-06/` e `src/prototipos/SEMANA-06/RF-006-catalogo-de-servicos/`.
 * ✅ **Mapeamento Real de Arquivos:** Todos os arquivos citados no documento existem na pasta e foram testados em conjunto no navegador.
 * ✅ **Linguagem Clara e Realista:** Texto técnico condizente com estudantes de Análise e Desenvolvimento de Sistemas, explicando as decisões tomadas de forma sincera e fundamentada.
-* ✅ **Casos de Uso Granulares:** Subdivididos em 6 casos de uso individuais (UC-004.1 a UC-004.6), atendendo à recomendação de detalhamento do professor.
+* ✅ **Casos de Uso Granulares:** Subdivididos em 6 casos de uso individuais (UC-006.1 a UC-006.6), atendendo à recomendação de detalhamento do professor.
 * ✅ **Conjunto Completo de RNFs:** Lista robusta com 8 Requisitos Não-Funcionais cobrindo performance, acessibilidade, segurança e qualidade de código.
 * ✅ **ADRs Estruturadas:** 7 registros de decisão documentando o que foi feito na prática e o que está planejado para o futuro do sistema.
 * ✅ **Formatação Limpa em Markdown:** Cabeçalhos hierárquicos, tabelas organizadas e blocos de código com destaque de sintaxe para facilitar a leitura.
 
 ---
 
-**Fim da Especificação Técnica do Módulo de Catálogo de Serviços (RF-04)**  
+**Fim da Especificação Técnica do Módulo de Catálogo de Serviços (RF-006)**  
 *BarberFlow — Sistema de Gestão de Barbearia (2026)*  
 *Laboratório de Inovação II — Prof. Edilberto Silva* 💈

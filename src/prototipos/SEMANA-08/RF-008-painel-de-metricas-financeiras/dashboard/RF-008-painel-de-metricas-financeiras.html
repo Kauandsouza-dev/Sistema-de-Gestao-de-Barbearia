@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BarberFlow - Agendamentos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="icon" type="image/webp" href="../assets/icone_barbearia.webp">
+</head>
+
+<body>
+
+    <header class="topo">
+        <div class="cabecalho">
+            <img src="../assets/icone_barbearia.webp" alt="Ícone da Barbearia BarberFlow" class="icone_barbearia">
+            <h2>BARBERFLOW</h2>
+        </div>
+
+        <nav class="menu_centro" aria-label="Menu principal">
+            <a href="#agendamentos" id="linkAgendamentos" class="link_menu link_ativo" onclick="alternarAbaMenu('agendamentos'); return false;">Agendamentos</a>
+            <a href="servicos/servicos.html" id="linkServicos" class="link_menu">Catálogo de Serviços</a>
+            <a href="#barbeiros" id="linkBarbeiros" class="link_menu" onclick="alternarAbaMenu('barbeiros'); return false;">Gestão de Barbeiros</a>
+        </nav>
+
+        <div class="lado_direito">
+            <span id="infoUsuario" class="info_usuario"></span>
+            <button class="btn_sair" onclick="sair()">Sair</button>
+        </div>
+    </header>
+
+    <main class="conteudo">
+
+        <div id="abaAgendamentos">
+
+            <section id="painelMetricas" class="painel_metricas" aria-label="Indicadores e Métricas Financeiras">
+                <div class="cartao card_metrica">
+                    <span id="rotuloFaturamento" class="rotulo_metrica">Faturamento Bruto (100%)</span>
+                    <strong id="valorFaturamento" class="valor_metrica status_confirmado">R$ 0,00</strong>
+                    <span id="subtextoFaturamento" class="subtexto_metrica">Soma dos cortes confirmados</span>
+                </div>
+
+                <div class="cartao card_metrica">
+                    <span id="rotuloDivisao" class="rotulo_metrica">Receita do Salão (30%)</span>
+                    <strong id="valorParteSalao" class="valor_metrica">R$ 0,00</strong>
+                    <span id="detalheRepasseBarbeiro" class="subtexto_metrica">Repasse Barbeiros (70%): R$ 0,00</span>
+                </div>
+
+                <div class="cartao card_metrica">
+                    <span class="rotulo_metrica">Taxa de Conversão</span>
+                    <strong id="valorConversao" class="valor_metrica">0%</strong>
+                    <span id="detalheCancelamento" class="subtexto_metrica">Cancelamento: 0%</span>
+                </div>
+
+                <div class="cartao card_metrica">
+                    <span class="rotulo_metrica">Status dos Atendimentos</span>
+                    <div class="contadores_status">
+                        <span class="item_contador"><b id="qtdConfirmados" class="status_confirmado">0</b> Confirmados</span>
+                        <span class="item_contador"><b id="qtdPendentes" class="status_pendente">0</b> Pendentes</span>
+                        <span class="item_contador"><b id="qtdCancelados" class="status_cancelado">0</b> Cancelados</span>
+                    </div>
+                </div>
+            </section>
+
+            <div id="cartaoRepasseBarbeiros" class="cartao">
+                <h3 class="titulo_secao_cartao">Controle de Caixa e Repasse por Barbeiro (Divisão 70% / 30%)</h3>
+                <table id="tabelaBarbeiros">
+                    <thead>
+                        <tr>
+                            <th scope="col">Barbeiro</th>
+                            <th scope="col">Cortes Confirmados</th>
+                            <th scope="col">Total Pago pelo Cliente (100%)</th>
+                            <th scope="col">Comissão Barbeiro (70%)</th>
+                            <th scope="col">Parte do Salão (30%)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpoTabelaBarbeiros">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="linha_titulo">
+                <h2 id="tituloPagina">Agendamentos</h2>
+                <button id="botaoNovo" class="btn_acao" onclick="abrirFormularioNovo()">+ Novo Agendamento</button>
+            </div>
+
+            <div class="cartao">
+
+                <label for="busca" class="sr-only">Buscar por cliente:</label>
+                <input class="input campo_busca" type="text" id="busca" placeholder="Buscar por cliente"
+                    aria-label="Buscar por cliente" onkeyup="mostrarAgendamentos()">
+
+                <table id="tabela">
+                    <thead>
+                        <tr>
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Serviço</th>
+                            <th scope="col">Barbeiro</th>
+                            <th scope="col">Data</th>
+                            <th scope="col">Hora</th>
+                            <th scope="col">Pagamento</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpoTabela">
+                    </tbody>
+                </table>
+
+                <p id="mensagemVazia">Nenhum agendamento encontrado.</p>
+
+            </div>
+
+            <div id="caixaFormulario" class="cartao caixa_formulario" style="display: none;">
+
+                <h3 id="tituloFormulario">Novo Agendamento</h3>
+
+                <label for="campoCliente">Cliente:</label>
+                <input class="input" type="text" id="campoCliente" placeholder="Nome do cliente">
+
+                <label for="campoServico">Serviço:</label>
+                <select class="input" id="campoServico">
+                </select>
+
+                <label for="campoBarbeiro">Barbeiro:</label>
+                <select class="input" id="campoBarbeiro" onchange="atualizarTabelaHorarios()">
+                </select>
+
+                <label for="campoData">Data:</label>
+                <input class="input" type="date" id="campoData" onchange="atualizarTabelaHorarios()">
+
+                <label for="campoHora">Horário Comercial (09:00 às 18:00):</label>
+                <select class="input" id="campoHora" onchange="destacarHorarioSelecionado()">
+                </select>
+
+                <div class="bloco_horarios">
+                    <span class="rotulo_horarios">Quadro de Horários (09:00 às 18:00 — clique para selecionar):</span>
+                    <table id="tabelaHorarios" class="tabela_horarios" aria-label="Horários comerciais entre 09:00 e 18:00">
+                        <tbody id="corpoTabelaHorarios">
+                        </tbody>
+                    </table>
+                </div>
+
+                <label for="campoPagamento">Forma de Pagamento:</label>
+                <select class="input" id="campoPagamento">
+                    <option value="Pix">Pix</option>
+                    <option value="Cartão">Cartão</option>
+                    <option value="Dinheiro">Dinheiro</option>
+                </select>
+
+                <label id="labelStatus" for="campoStatus">Status:</label>
+                <select class="input" id="campoStatus">
+                    <option value="Confirmado">Confirmado</option>
+                    <option value="Pendente">Pendente</option>
+                    <option value="Cancelado">Cancelado</option>
+                </select>
+
+                <p id="mensagemErro" class="mensagem_erro" role="alert" hidden></p>
+
+                <div class="linha_botoes">
+                    <button class="btn_acao" onclick="salvarAgendamento()">Salvar</button>
+                    <button class="btn_cancelar" onclick="fecharFormulario()">Cancelar</button>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="abaGestaoBarbeiros" style="display: none;">
+
+            <div class="linha_titulo">
+                <h2 id="tituloGestaoBarbeiros">Gestão de Equipe e Solicitações de Barbeiros</h2>
+                <button id="botaoNovoBarbeiro" class="btn_acao" type="button" onclick="abrirFormularioBarbeiroNovo()">+ Cadastrar Barbeiro</button>
+            </div>
+
+            <div id="cartaoGestaoBarbeiros" class="cartao">
+                <table id="tabelaGestaoBarbeiros">
+                    <thead>
+                        <tr>
+                            <th scope="col">Profissional</th>
+                            <th scope="col">E-mail</th>
+                            <th scope="col">Especialidade</th>
+                            <th scope="col">Situação</th>
+                            <th scope="col">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpoTabelaGestaoBarbeiros">
+                    </tbody>
+                </table>
+
+                <p id="mensagemSemBarbeiros" class="mensagem_vazia_interna">Nenhuma solicitação ou barbeiro cadastrado no momento.</p>
+            </div>
+
+            <div id="caixaFormularioBarbeiro" class="cartao caixa_formulario" style="display: none;">
+                <h3 id="tituloFormularioBarbeiro">Cadastrar Barbeiro</h3>
+
+                <label for="campoNomeBarbeiro">Nome do Barbeiro:</label>
+                <input class="input" type="text" id="campoNomeBarbeiro" placeholder="Nome completo do profissional">
+
+                <label for="campoEmailBarbeiro">E-mail:</label>
+                <input class="input" type="email" id="campoEmailBarbeiro" placeholder="profissional@email.com">
+
+                <label for="campoEspecialidadeBarbeiro">Especialidade / Experiência:</label>
+                <input class="input" type="text" id="campoEspecialidadeBarbeiro" placeholder="Ex: Corte Degradê, Barba e Navalha">
+
+                <label for="campoStatusBarbeiro">Situação na Equipe:</label>
+                <select class="input" id="campoStatusBarbeiro">
+                    <option value="Ativo">Ativo (Liberado no Select de Agendamento)</option>
+                    <option value="Pendente">Pendente de Aprovação</option>
+                    <option value="Inativo">Inativo (Oculto para Agendamento)</option>
+                </select>
+
+                <p id="mensagemErroBarbeiro" class="mensagem_erro" role="alert" hidden></p>
+
+                <div class="linha_botoes">
+                    <button class="btn_acao" type="button" onclick="salvarBarbeiroAdmin()">Salvar Profissional</button>
+                    <button class="btn_cancelar" type="button" onclick="fecharFormularioBarbeiro()">Cancelar</button>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="dashboard.js"></script>
+</body>
+
+</html>

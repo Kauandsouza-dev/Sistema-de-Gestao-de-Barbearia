@@ -389,5 +389,5 @@ function excluirAgendamento(id) {
 iniciar();
 
 function sair() {
-    window.location.href = "../app/RF-004-catalogo-de-servicos.html";
+    window.location.href = "../app/login.html";
 }
