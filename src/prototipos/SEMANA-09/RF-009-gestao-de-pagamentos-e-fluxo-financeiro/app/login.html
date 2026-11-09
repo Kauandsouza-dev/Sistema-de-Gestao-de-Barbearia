@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BarberFlow - Acesso ao Sistema</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/webp" href="../assets/icone_barbearia.webp">
+</head>
+
+<body>
+    <main class="conteudo_pagina">
+        <section class="textos">
+            <div class="cabecalho">
+                <img src="../assets/icone_barbearia.webp" alt="Ícone da Barbearia BarberFlow" class="icone_barbearia">
+                <h1>BarberFlow</h1>
+            </div>
+            <div class="msg">
+                <h2>Cuide do seu negócio. A gente simplifica a gestão.</h2>
+                <p>Organize sua agenda, clientes, serviços e fluxo financeiro em um só lugar.</p>
+            </div>
+        </section>
+
+        <div class="container_forms">
+
+            <!-- Formulário de Login -->
+            <form class="form_card form_login" id="formLogin" onsubmit="event.preventDefault(); fazerLogin();">
+                <h1>Portal de Acesso</h1>
+                <p>Gerencie sua barbearia de forma fácil e rápida.</p>
+
+                <button id="toggle_tema" class="btn_tema" type="button" aria-label="Alternar tema escuro/claro">
+                    🌙
+                </button>
+
+                <label for="email_login">E-mail</label>
+                <input class="input" id="email_login" name="email" type="email" placeholder="seu@email.com"
+                    autocomplete="email" required>
+
+                <label for="senha">Senha</label>
+                <input class="input" id="senha" name="senha" type="password" placeholder="Sua senha"
+                    autocomplete="current-password" required>
+
+                <div class="lembrar_me">
+                    <input type="checkbox" id="lembrar" name="lembrar">
+                    <label for="lembrar">Lembrar-me neste dispositivo</label>
+                </div>
+
+                <a class="link link_esqueci" href="#" role="button" tabindex="0">Esqueci minha senha</a>
+
+                <p id="msgErroLogin" class="mensagem_erro" role="alert" style="display: none;"></p>
+
+                <button class="btn_entrar" type="submit">Entrar no Sistema</button>
+                <a class="link link_criar" href="#" role="button" tabindex="0">Não tem uma conta? Crie aqui!</a>
+            </form>
+
+            <!-- Formulário de Cadastro -->
+            <form class="form_card form_cadastro" id="formCadastro" style="display: none;" onsubmit="event.preventDefault(); cadastrarUsuario();">
+                <img src="../assets/icone_barbearia.webp" alt="Ícone da Barbearia" class="icone_barbearia">
+                <h1>BarberFlow</h1>
+                <p>Crie sua conta para acessar o sistema.</p>
+
+                <div class="etapa etapa_1">
+                    <label for="nome_cadastro">Nome Completo</label>
+                    <input class="input" id="nome_cadastro" name="nome" type="text" placeholder="Seu nome completo" required>
+
+                    <label for="email_cadastro">E-mail</label>
+                    <input class="input" id="email_cadastro" name="email" type="email" placeholder="seu@email.com"
+                        autocomplete="email" required>
+
+                    <label for="perfil_cadastro">Perfil de Acesso</label>
+                    <select class="input" id="perfil_cadastro" name="perfil" onchange="alternarCamposCandidatoBarbeiro()">
+                        <option value="cliente">Cliente (Agendar Serviços)</option>
+                        <option value="barbeiro">Barbeiro (Atendimento & Comissões)</option>
+                        <option value="admin">Administrador (Gestão Geral & Caixa)</option>
+                    </select>
+
+                    <div id="blocoInteresseBarbeiro" style="display: none; width: 100%; flex-direction: column; gap: 0.4rem;">
+                        <label for="especialidade_cadastro">Especialidade / Experiência</label>
+                        <input class="input" id="especialidade_cadastro" name="especialidade" type="text" placeholder="Ex: Degradê, Barba, Visagismo">
+                    </div>
+
+                    <label for="senha_cadastro">Senha (mínimo 6 caracteres)</label>
+                    <input class="input" id="senha_cadastro" name="senha" type="password" placeholder="Digite uma senha segura" required>
+
+                    <label for="confirma_senha">Confirmar Senha</label>
+                    <input class="input" id="confirma_senha" name="confirma_senha" type="password" placeholder="Confirme sua senha" required>
+
+                    <p id="msgErroCadastro" class="mensagem_erro" role="alert" style="display: none;"></p>
+
+                    <button class="btn_entrar" type="submit">Finalizar Cadastro</button>
+                    <a class="link link_voltar_login" href="#" role="button" tabindex="0">Já tem conta? Faça Login</a>
+                </div>
+            </form>
+
+        </div>
+    </main>
+
+    <!-- Bibliotecas externas: Bcryptjs e Supabase JS v2 -->
+    <script src="https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcrypt.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
