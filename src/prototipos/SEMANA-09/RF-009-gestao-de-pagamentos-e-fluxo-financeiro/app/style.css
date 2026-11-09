@@ -356,3 +356,29 @@ body.dark-mode .btn_avancar:hover {
         width: min(100%, 400px);
     }
 }
+
+.mensagem_erro {
+    color: #dc2626;
+    background-color: #fee2e2;
+    padding: 0.6rem 0.8rem;
+    border-radius: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    border-left: 4px solid #dc2626;
+    width: 100%;
+    text-align: left;
+}
+
+.mensagem_sucesso {
+    color: #15803d;
+    background-color: #dcfce7;
+    padding: 0.6rem 0.8rem;
+    border-radius: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    border-left: 4px solid #15803d;
+    width: 100%;
+    text-align: left;
+}

@@ -30,7 +30,7 @@
             <!-- Formulário de Login -->
             <form class="form_card form_login" id="formLogin" onsubmit="event.preventDefault(); fazerLogin();">
                 <h1>Portal de Acesso</h1>
-                <p>Gerencie sua barbearia de forma fácil e rápida.</p>
+                <p>Gerencie sua barbearia de forma rápida e segura.</p>
 
                 <button id="toggle_tema" class="btn_tema" type="button" aria-label="Alternar tema escuro/claro">
                     🌙
@@ -52,48 +52,47 @@
                 <a class="link link_esqueci" href="#" role="button" tabindex="0">Esqueci minha senha</a>
 
                 <p id="msgErroLogin" class="mensagem_erro" role="alert" style="display: none;"></p>
+                <p id="msgSucessoLogin" class="mensagem_sucesso" role="status" style="display: none;"></p>
 
                 <button class="btn_entrar" type="submit">Entrar no Sistema</button>
                 <a class="link link_criar" href="#" role="button" tabindex="0">Não tem uma conta? Crie aqui!</a>
             </form>
 
-            <!-- Formulário de Cadastro -->
-            <form class="form_card form_cadastro" id="formCadastro" style="display: none;" onsubmit="event.preventDefault(); cadastrarUsuario();">
+            <!-- Formulário de Cadastro (controlado pela classe modo_cadastro no container) -->
+            <form class="form_card form_cadastro" id="formCadastro" onsubmit="event.preventDefault(); cadastrarUsuario();">
                 <img src="../assets/icone_barbearia.webp" alt="Ícone da Barbearia" class="icone_barbearia">
                 <h1>BarberFlow</h1>
                 <p>Crie sua conta para acessar o sistema.</p>
 
-                <div class="etapa etapa_1">
-                    <label for="nome_cadastro">Nome Completo</label>
-                    <input class="input" id="nome_cadastro" name="nome" type="text" placeholder="Seu nome completo" required>
+                <label for="nome_cadastro">Nome Completo: *</label>
+                <input class="input" id="nome_cadastro" name="nome" type="text" placeholder="Seu nome completo" required>
 
-                    <label for="email_cadastro">E-mail</label>
-                    <input class="input" id="email_cadastro" name="email" type="email" placeholder="seu@email.com"
-                        autocomplete="email" required>
+                <label for="email_cadastro">E-mail: *</label>
+                <input class="input" id="email_cadastro" name="email" type="email" placeholder="seu@email.com"
+                    autocomplete="email" required>
 
-                    <label for="perfil_cadastro">Perfil de Acesso</label>
-                    <select class="input" id="perfil_cadastro" name="perfil" onchange="alternarCamposCandidatoBarbeiro()">
-                        <option value="cliente">Cliente (Agendar Serviços)</option>
-                        <option value="barbeiro">Barbeiro (Atendimento & Comissões)</option>
-                        <option value="admin">Administrador (Gestão Geral & Caixa)</option>
-                    </select>
+                <label for="perfil_cadastro">Perfil de Acesso: *</label>
+                <select class="input" id="perfil_cadastro" name="perfil" onchange="alternarCamposCandidatoBarbeiro()">
+                    <option value="cliente">Cliente (Agendar Serviços)</option>
+                    <option value="barbeiro">Barbeiro (Atendimento & Comissões)</option>
+                    <option value="admin">Administrador (Gestão Geral & Caixa)</option>
+                </select>
 
-                    <div id="blocoInteresseBarbeiro" style="display: none; width: 100%; flex-direction: column; gap: 0.4rem;">
-                        <label for="especialidade_cadastro">Especialidade / Experiência</label>
-                        <input class="input" id="especialidade_cadastro" name="especialidade" type="text" placeholder="Ex: Degradê, Barba, Visagismo">
-                    </div>
-
-                    <label for="senha_cadastro">Senha (mínimo 6 caracteres)</label>
-                    <input class="input" id="senha_cadastro" name="senha" type="password" placeholder="Digite uma senha segura" required>
-
-                    <label for="confirma_senha">Confirmar Senha</label>
-                    <input class="input" id="confirma_senha" name="confirma_senha" type="password" placeholder="Confirme sua senha" required>
-
-                    <p id="msgErroCadastro" class="mensagem_erro" role="alert" style="display: none;"></p>
-
-                    <button class="btn_entrar" type="submit">Finalizar Cadastro</button>
-                    <a class="link link_voltar_login" href="#" role="button" tabindex="0">Já tem conta? Faça Login</a>
+                <div id="blocoInteresseBarbeiro" style="display: none; width: 100%; flex-direction: column; gap: 0.2rem;">
+                    <label for="especialidade_cadastro">Especialidade / Experiência:</label>
+                    <input class="input" id="especialidade_cadastro" name="especialidade" type="text" placeholder="Ex: Degradê, Barba, Visagismo">
                 </div>
+
+                <label for="senha_cadastro">Senha (mínimo 6 caracteres): *</label>
+                <input class="input" id="senha_cadastro" name="senha" type="password" placeholder="Digite uma senha segura" required>
+
+                <label for="confirma_senha">Confirmar Senha: *</label>
+                <input class="input" id="confirma_senha" name="confirma_senha" type="password" placeholder="Confirme sua senha" required>
+
+                <p id="msgErroCadastro" class="mensagem_erro" role="alert" style="display: none;"></p>
+
+                <button class="btn_entrar" type="submit">Finalizar Cadastro</button>
+                <a class="link link_voltar_login" href="#" role="button" tabindex="0">Já tem conta? Faça Login</a>
             </form>
 
         </div>
